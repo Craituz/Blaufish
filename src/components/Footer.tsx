@@ -30,11 +30,11 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenPortal }) => {
             <div className="flex flex-col gap-1.5 text-xs text-black/50 font-mono">
               <div className="flex items-center gap-2">
                 <MapPin className="w-3.5 h-3.5 shrink-0" />
-                <span>Puerto de Manta: 0°56′S 80°43′W • Manabí, Ecuador</span>
+                <span>Puerto de Manta, Manabí, Ecuador</span>
               </div>
               <div className="flex items-center gap-2">
                 <Anchor className="w-3.5 h-3.5 shrink-0" />
-                <span>Despacho Portuario Manta & Aeropuertos GYE / UIO</span>
+                <span>Despacho Portuario Manta</span>
               </div>
             </div>
           </div>
@@ -84,7 +84,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenPortal }) => {
                   onClick={() => onNavigate('productos')}
                   className="hover:text-black transition-colors text-left cursor-pointer"
                 >
-                  Pez Espada (Picudo)
+                  Picudo
                 </button>
               </li>
               <li>

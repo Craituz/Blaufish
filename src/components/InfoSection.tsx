@@ -47,16 +47,15 @@ export const InfoSection: React.FC<InfoSectionProps> = ({ onDiscover, onNavigate
           {/* Card 1: Spans 2 cols on lg, with high-res authentic harvest imagery */}
           <div
             onClick={() => onNavigate('productos')}
-            className="lg:col-span-2 rounded-2xl relative overflow-hidden group p-7 min-h-80 flex flex-col justify-between shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer"
+            className="lg:col-span-2 rounded-2xl relative overflow-hidden group p-7 min-h-80 flex flex-col justify-between shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer"
             style={{
               backgroundImage: 'url(/assets/picudo_hero.jpg)',
               backgroundSize: 'cover',
               backgroundPosition: 'center 35%',
             }}
           >
-            {/* Luminous frosted diffuse scrim: softly diffuses background edges and hard lines */}
-            <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/80 to-white/20 backdrop-blur-[3px] pointer-events-none group-hover:opacity-95 transition-opacity duration-300" />
-            <div className="absolute inset-0 bg-gradient-to-t from-white/95 via-transparent to-white/70 pointer-events-none" />
+            {/* Soft gradient on the left side to guarantee text legibility */}
+            <div className="absolute inset-0 bg-gradient-to-r from-white/75 via-white/35 to-transparent pointer-events-none" />
 
             {/* Title (top) */}
             <div className="relative z-10">

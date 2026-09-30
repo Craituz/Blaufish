@@ -29,21 +29,19 @@ export const QuienesSomosView: React.FC<QuienesSomosViewProps> = ({
         <div className="flex items-center gap-2 p-1.5 bg-black/5 rounded-full">
           <button
             onClick={() => onNavigate('quienes-somos')}
-            className={`px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all ${
-              currentSubView === 'quienes-somos'
-                ? 'bg-[#142344] text-white shadow-sm'
-                : 'text-black/60 hover:text-black'
-            }`}
+            className={`px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all ${currentSubView === 'quienes-somos'
+              ? 'bg-[#142344] text-white shadow-sm'
+              : 'text-black/60 hover:text-black'
+              }`}
           >
             Quiénes Somos
           </button>
           <button
             onClick={() => onNavigate('responsabilidad-social')}
-            className={`px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all ${
-              currentSubView === 'responsabilidad-social'
-                ? 'bg-[#142344] text-white shadow-sm'
-                : 'text-black/60 hover:text-black'
-            }`}
+            className={`px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all ${currentSubView === 'responsabilidad-social'
+              ? 'bg-[#142344] text-white shadow-sm'
+              : 'text-black/60 hover:text-black'
+              }`}
           >
             Responsabilidad Social
           </button>
@@ -69,19 +67,13 @@ export const QuienesSomosView: React.FC<QuienesSomosViewProps> = ({
                 <span className="text-black/50">estándares mundiales.</span>
               </h1>
               <p className="text-black/70 text-lg md:text-xl leading-relaxed mb-6 font-light">
-                Fundada en Manta —puerto pesquero insignia del Pacífico ecuatoriano—, Blaufish Cía. Ltda. es una empresa familiar y comercializadora líder con más de 15 años de experiencia, especializada en la selección, calidad certificada y comercialización de pelágicos mayores de grado sashimi.
+                Fundada en Manta —puerto pesquero insignia del Pacífico ecuatoriano—, Blaufish Cía. Ltda. es una empresa familiar y comercializadora líder con más de 15 años de experiencia, especializada en la selección, calidad certificada y comercialización de pelágicos.
               </p>
               <p className="text-black/60 text-base leading-relaxed mb-8">
-                Nuestros estrechos lazos comerciales con Asia y presencia en los mercados más exigentes de Seúl, Tokio, Los Ángeles y Europa nos permiten colocar producto de primer nivel, con ultracongelación a bordo y una cadena de custodia impecable.
+                Nuestros estrechos lazos comerciales con Asia nos permiten acceder a productos pesqueros de primer nivel, que posteriormente son comercializados en la provincia de Manabí, garantizando calidad, conservación y una cadena de custodia adecuada desde su origen hasta el consumidor.
               </p>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 border-t border-black/10 pt-8">
-                <div>
-                  <div className="text-3xl font-medium text-black mb-1">+15 Años</div>
-                  <div className="text-xs uppercase tracking-wider font-semibold text-black/50">
-                    Empresa Familiar
-                  </div>
-                </div>
                 <div>
                   <div className="text-3xl font-medium text-black mb-1">A Bordo</div>
                   <div className="text-xs uppercase tracking-wider font-semibold text-black/50">
@@ -89,9 +81,9 @@ export const QuienesSomosView: React.FC<QuienesSomosViewProps> = ({
                   </div>
                 </div>
                 <div>
-                  <div className="text-3xl font-medium text-black mb-1">&lt; 36h</div>
+                  <div className="text-3xl font-medium text-black mb-1">+15 Años</div>
                   <div className="text-xs uppercase tracking-wider font-semibold text-black/50">
-                    Tránsito Aéreo a Asia
+                    Empresa Familiar
                   </div>
                 </div>
               </div>
@@ -156,7 +148,7 @@ export const QuienesSomosView: React.FC<QuienesSomosViewProps> = ({
       {/* 3. RESPONSABILIDAD SOCIAL Y SOSTENIBILIDAD                                 */}
       {/* ========================================================================= */}
       {(currentSubView === 'responsabilidad-social' || currentSubView === 'quienes-somos') && (
-        <section id="responsabilidad" className="pt-8 border-t border-black/10 animate-in fade-in duration-300">
+        <section id="responsabilidad" className="pt-8 animate-in fade-in duration-300">
           <div className="max-w-2xl mb-12">
             <div className="inline-flex items-center gap-2 text-xs uppercase tracking-widest font-semibold text-black/50 mb-3">
               <HeartHandshake className="w-3.5 h-3.5" />

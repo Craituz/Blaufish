@@ -1,21 +1,11 @@
-import React, { useRef, useState } from 'react';
-import { ArrowRight, Volume2, VolumeX } from 'lucide-react';
-import { BrandMarquee } from './BrandMarquee';
+import React from 'react';
+import { ArrowRight } from 'lucide-react';
 
 interface HeroSectionProps {
   onExplore: () => void;
 }
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ onExplore }) => {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [isMuted, setIsMuted] = useState(true);
-
-  const toggleSound = () => {
-    if (videoRef.current) {
-      videoRef.current.muted = !videoRef.current.muted;
-      setIsMuted(videoRef.current.muted);
-    }
-  };
 
   return (
     <div className="w-full h-full px-3 sm:px-6 md:px-8 pt-24 md:pt-28 pb-8 md:pb-12 flex flex-col">
@@ -23,7 +13,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExplore }) => {
       <div className="relative w-full flex-1 rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl bg-neutral-100 min-h-0">
         {/* Background Video: object-[75%_center] en móvil para ver más a la derecha, md:object-center en escritorio */}
         <video
-          ref={videoRef}
           autoPlay
           muted
           loop
@@ -42,15 +31,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExplore }) => {
         <div className="absolute inset-0 bg-gradient-to-r from-white/90 via-white/60 to-white/10 md:to-transparent pointer-events-none" />
         <div className="absolute inset-0 bg-gradient-to-t from-white/50 via-transparent to-transparent pointer-events-none" />
 
-        {/* Audio Toggle in bottom corner */}
-        <button
-          onClick={toggleSound}
-          className="absolute bottom-6 right-6 z-20 p-2.5 rounded-full bg-white/80 backdrop-blur text-black/80 hover:bg-white hover:text-black transition-colors shadow cursor-pointer"
-          title={isMuted ? 'Activar sonido del océano' : 'Silenciar'}
-          aria-label="Alternar audio del océano"
-        >
-          {isMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
-        </button>
 
         {/* Content Overlay */}
         <div className="relative z-10 flex flex-col items-start justify-center h-full p-6 md:p-12 lg:p-14 pb-12 md:pb-16">
@@ -83,9 +63,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExplore }) => {
               <ArrowRight className="w-5 h-5 text-[#142344] group-hover:translate-x-0.5 transition-transform" />
             </div>
           </button>
-
-          {/* Brand Marquee (inside hero, below button) */}
-          <BrandMarquee />
         </div>
       </div>
     </div>

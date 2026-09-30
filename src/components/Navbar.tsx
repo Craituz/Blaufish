@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { ChevronDown, Menu, X, Anchor, Sparkles, Building2, HeartHandshake, Fish, Snowflake, ShieldCheck, PlaneTakeoff, PhoneCall } from 'lucide-react';
+import { ChevronDown, Menu, X, Anchor, Sparkles, HeartHandshake, Fish, Snowflake, ShieldCheck, PhoneCall } from 'lucide-react';
 import { NavView } from '../types/navigation';
 
 interface NavbarProps {
@@ -38,12 +38,6 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate, onOpenP
       icon: Anchor,
     },
     {
-      id: 'infraestructura' as NavView,
-      title: 'Infraestructura y Planta',
-      desc: 'Planta de procesamiento HACCP, cuartos de almacenamiento y logística en frío.',
-      icon: Building2,
-    },
-    {
       id: 'responsabilidad-social' as NavView,
       title: 'Responsabilidad Social',
       desc: 'Apoyo activo a caletas de pescadores artesanales y sostenibilidad del ecosistema marino.',
@@ -76,33 +70,26 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate, onOpenP
       desc: 'Acreditaciones internacionales: HACCP, FDA, UE #042, NFQS Corea e IATTC.',
       icon: ShieldCheck,
     },
-    {
-      id: 'logistica' as NavView,
-      title: 'Logística y Comercio Internacional',
-      desc: 'Vuelos chárter directos <36h y contenedores marítimos supercongelados.',
-      icon: PlaneTakeoff,
-    },
   ];
 
-  const isNosotrosActive = ['quienes-somos', 'infraestructura', 'responsabilidad-social'].includes(currentView);
-  const isInfoActive = ['productos', 'cadena-frio', 'trazabilidad', 'certificaciones', 'logistica'].includes(currentView);
+  const isNosotrosActive = ['quienes-somos', 'responsabilidad-social'].includes(currentView);
+  const isInfoActive = ['productos', 'cadena-frio', 'trazabilidad', 'certificaciones'].includes(currentView);
 
   return (
-    <nav className="absolute top-0 left-0 right-0 z-40 px-4 md:px-6 py-4 md:py-5">
-      <div className="max-w-[88rem] mx-auto flex items-center justify-between">
-        {/* Brand: Logo oficial de Blaufish bien posicionado y sin texto redundante */}
+    <nav className="absolute top-0 left-0 right-0 z-40 px-4 md:px-6 py-3 md:py-5">
+      <div className="max-w-[88rem] mx-auto relative flex items-center justify-between min-h-[50px] md:min-h-[75px]">
+        {/* Brand: Logo oficial de Blaufish centrado en móvil y a la izquierda en desktop */}
         <button
           onClick={() => onNavigate('inicio')}
-          className="flex items-center group cursor-pointer focus:outline-none py-1"
+          className="flex items-center group cursor-pointer focus:outline-none py-1 absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 md:static md:translate-x-0 md:translate-y-0 z-10"
           aria-label="Ir a Inicio - Blaufish"
         >
           <img
             src="/assets/logo.png"
             alt="Blaufish"
-            style={{ height: '75px', width: 'auto' }}
-            className="object-contain"
-          />
+            className="h-[65px] md:h-[70px] w-auto object-contain"
 
+          />
         </button>
 
         {/* Desktop Navigation Links */}
@@ -137,10 +124,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate, onOpenP
 
             {/* Dropdown Menu */}
             {activeDropdown === 'nosotros' && (
-              <div className="absolute top-full left-0 mt-2 w-80 bg-white/95 backdrop-blur-xl rounded-2xl shadow-xl border border-black/10 p-2.5 animate-in fade-in slide-in-from-top-2 duration-150 z-50">
-                <div className="text-[10px] uppercase font-bold tracking-wider text-black/40 px-3 py-1.5 border-b border-black/5 mb-1">
-                  Empresa & Filosofía
-                </div>
+              <div className="absolute top-full left-0 mt-2 w-64 bg-white/95 backdrop-blur-xl rounded-2xl shadow-xl border border-black/10 p-1.5 flex flex-col gap-0.5 animate-in fade-in slide-in-from-top-2 duration-150 z-50">
                 {nosotrosSub.map((item) => {
                   const Icon = item.icon;
                   const isItemActive = currentView === item.id;
@@ -151,16 +135,22 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate, onOpenP
                         onNavigate(item.id);
                         setActiveDropdown(null);
                       }}
-                      className={`w-full flex items-start gap-3 p-2.5 rounded-xl text-left transition-colors cursor-pointer ${isItemActive ? 'bg-black/5 text-black' : 'hover:bg-black/5 text-gray-800 hover:text-black'
+                      className={`group w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left transition-all duration-150 cursor-pointer ${isItemActive
+                          ? 'bg-[#142344] text-white shadow-sm'
+                          : 'text-gray-700 hover:text-black hover:bg-black/5'
                         }`}
                     >
-                      <div className="p-2 rounded-lg bg-black/5 text-black shrink-0 mt-0.5">
+                      <div
+                        className={`p-2 rounded-lg shrink-0 transition-colors ${isItemActive
+                            ? 'bg-white/15 text-white'
+                            : 'bg-black/5 text-black/70 group-hover:bg-[#142344]/10 group-hover:text-[#142344]'
+                          }`}
+                      >
                         <Icon className="w-4 h-4" />
                       </div>
-                      <div>
-                        <div className="text-xs font-semibold text-black">{item.title}</div>
-                        <div className="text-[11px] text-gray-500 leading-tight mt-0.5">{item.desc}</div>
-                      </div>
+                      <span className="text-sm font-medium tracking-tight whitespace-nowrap">
+                        {item.title}
+                      </span>
                     </button>
                   );
                 })}
@@ -187,10 +177,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate, onOpenP
 
             {/* Dropdown Menu */}
             {activeDropdown === 'informacion' && (
-              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-96 bg-white/95 backdrop-blur-xl rounded-2xl shadow-xl border border-black/10 p-2.5 animate-in fade-in slide-in-from-top-2 duration-150 z-50">
-                <div className="text-[10px] uppercase font-bold tracking-wider text-black/40 px-3 py-1.5 border-b border-black/5 mb-1">
-                  Especies, Calidad y Operaciones
-                </div>
+              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-80 bg-white/95 backdrop-blur-xl rounded-2xl shadow-xl border border-black/10 p-1.5 flex flex-col gap-0.5 animate-in fade-in slide-in-from-top-2 duration-150 z-50">
                 {infoSub.map((item) => {
                   const Icon = item.icon;
                   const isItemActive = currentView === item.id;
@@ -201,16 +188,22 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate, onOpenP
                         onNavigate(item.id);
                         setActiveDropdown(null);
                       }}
-                      className={`w-full flex items-start gap-3 p-2.5 rounded-xl text-left transition-colors cursor-pointer ${isItemActive ? 'bg-black/5 text-black' : 'hover:bg-black/5 text-gray-800 hover:text-black'
+                      className={`group w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left transition-all duration-150 cursor-pointer ${isItemActive
+                          ? 'bg-[#142344] text-white shadow-sm'
+                          : 'text-gray-700 hover:text-black hover:bg-black/5'
                         }`}
                     >
-                      <div className="p-2 rounded-lg bg-black/5 text-black shrink-0 mt-0.5">
+                      <div
+                        className={`p-2 rounded-lg shrink-0 transition-colors ${isItemActive
+                            ? 'bg-white/15 text-white'
+                            : 'bg-black/5 text-black/70 group-hover:bg-[#142344]/10 group-hover:text-[#142344]'
+                          }`}
+                      >
                         <Icon className="w-4 h-4" />
                       </div>
-                      <div>
-                        <div className="text-xs font-semibold text-black">{item.title}</div>
-                        <div className="text-[11px] text-gray-500 leading-tight mt-0.5">{item.desc}</div>
-                      </div>
+                      <span className="text-sm font-medium tracking-tight whitespace-nowrap">
+                        {item.title}
+                      </span>
                     </button>
                   );
                 })}
@@ -219,11 +212,11 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate, onOpenP
           </div>
         </div>
 
-        {/* Right CTA: Portal de Clientes + Mobile Menu Button */}
-        <div className="flex items-center gap-3">
+        {/* Right CTA: Portal de Clientes (Desktop) + Mobile Menu Button */}
+        <div className="flex items-center gap-3 ml-auto md:ml-0">
           <button
             onClick={onOpenPortal}
-            className="bg-[#142344] text-white text-sm md:text-base font-medium px-5 md:px-7 py-2 md:py-2.5 rounded-full hover:bg-[#1d3260] transition-colors duration-200 shadow-sm hover:shadow cursor-pointer"
+            className="hidden md:inline-flex bg-[#142344] text-white text-sm md:text-base font-medium px-5 md:px-7 py-2 md:py-2.5 rounded-full hover:bg-[#1d3260] transition-colors duration-200 shadow-sm hover:shadow cursor-pointer"
           >
             Portal de Clientes
           </button>
@@ -259,19 +252,23 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate, onOpenP
               Nosotros
             </div>
             <div className="flex flex-col gap-1">
-              {nosotrosSub.map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => {
-                    onNavigate(item.id);
-                    setMobileMenuOpen(false);
-                  }}
-                  className={`w-full text-left text-sm py-2 px-3 rounded-xl flex items-center justify-between ${currentView === item.id ? 'bg-[#142344] text-white font-medium' : 'text-gray-700 hover:bg-black/5'
-                    }`}
-                >
-                  <span>{item.title}</span>
-                </button>
-              ))}
+              {nosotrosSub.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => {
+                      onNavigate(item.id);
+                      setMobileMenuOpen(false);
+                    }}
+                    className={`w-full text-left text-sm py-2 px-3 rounded-xl flex items-center gap-2.5 ${currentView === item.id ? 'bg-[#142344] text-white font-medium' : 'text-gray-700 hover:bg-black/5'
+                      }`}
+                  >
+                    <Icon className="w-4 h-4 opacity-70" />
+                    <span>{item.title}</span>
+                  </button>
+                );
+              })}
             </div>
           </div>
 
@@ -281,19 +278,23 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate, onOpenP
               Información
             </div>
             <div className="flex flex-col gap-1">
-              {infoSub.map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => {
-                    onNavigate(item.id);
-                    setMobileMenuOpen(false);
-                  }}
-                  className={`w-full text-left text-sm py-2 px-3 rounded-xl flex items-center justify-between ${currentView === item.id ? 'bg-[#142344] text-white font-medium' : 'text-gray-700 hover:bg-black/5'
-                    }`}
-                >
-                  <span>{item.title}</span>
-                </button>
-              ))}
+              {infoSub.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => {
+                      onNavigate(item.id);
+                      setMobileMenuOpen(false);
+                    }}
+                    className={`w-full text-left text-sm py-2 px-3 rounded-xl flex items-center gap-2.5 ${currentView === item.id ? 'bg-[#142344] text-white font-medium' : 'text-gray-700 hover:bg-black/5'
+                      }`}
+                  >
+                    <Icon className="w-4 h-4 opacity-70" />
+                    <span>{item.title}</span>
+                  </button>
+                );
+              })}
             </div>
           </div>
 

@@ -1,13 +1,11 @@
 export type NavView =
   | 'inicio'
   | 'quienes-somos'
-  | 'infraestructura'
   | 'responsabilidad-social'
   | 'productos'
   | 'cadena-frio'
   | 'trazabilidad'
   | 'certificaciones'
-  | 'logistica'
   | 'contacto';
 
 export interface SubCategory {

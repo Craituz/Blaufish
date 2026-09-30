@@ -30,8 +30,8 @@ export const App: React.FC = () => {
     setSelectedMode(undefined);
   };
 
-  const isNosotrosGroup = ['quienes-somos', 'infraestructura', 'responsabilidad-social'].includes(currentView);
-  const isInformacionGroup = ['productos', 'cadena-frio', 'trazabilidad', 'certificaciones', 'logistica'].includes(currentView);
+  const isNosotrosGroup = ['quienes-somos', 'responsabilidad-social'].includes(currentView);
+  const isInformacionGroup = ['productos', 'cadena-frio', 'trazabilidad', 'certificaciones'].includes(currentView);
 
   return (
     <div className="flex flex-col bg-[#F5F5F5] min-h-screen text-[#111111] antialiased selection:bg-[#142344] selection:text-white">

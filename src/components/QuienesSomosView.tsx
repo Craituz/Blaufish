@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowLeft, Anchor, Building2, HeartHandshake, CheckCircle2, ShieldCheck, MapPin, Award, ArrowRight } from 'lucide-react';
+import { ArrowLeft, Anchor, HeartHandshake, CheckCircle2, ShieldCheck, MapPin, Award, ArrowRight } from 'lucide-react';
 import { NavView } from '../types/navigation';
 
 interface QuienesSomosViewProps {
@@ -36,16 +36,6 @@ export const QuienesSomosView: React.FC<QuienesSomosViewProps> = ({
             }`}
           >
             Quiénes Somos
-          </button>
-          <button
-            onClick={() => onNavigate('infraestructura')}
-            className={`px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all ${
-              currentSubView === 'infraestructura'
-                ? 'bg-[#142344] text-white shadow-sm'
-                : 'text-black/60 hover:text-black'
-            }`}
-          >
-            Infraestructura
           </button>
           <button
             onClick={() => onNavigate('responsabilidad-social')}
@@ -160,82 +150,7 @@ export const QuienesSomosView: React.FC<QuienesSomosViewProps> = ({
         </section>
       )}
 
-      {/* ========================================================================= */}
-      {/* 2. INFRAESTRUCTURA Y PLANTA                                               */}
-      {/* ========================================================================= */}
-      {(currentSubView === 'infraestructura' || currentSubView === 'quienes-somos') && (
-        <section id="infraestructura" className="pt-8 mb-20 border-t border-black/10 animate-in fade-in duration-300">
-          <div className="max-w-2xl mb-12">
-            <div className="inline-flex items-center gap-2 text-xs uppercase tracking-widest font-semibold text-black/50 mb-3">
-              <Building2 className="w-3.5 h-3.5" />
-              <span>Instalaciones y Tecnología</span>
-            </div>
-            <h2
-              className="text-3xl md:text-5xl font-medium text-black mb-4"
-              style={{ letterSpacing: '-0.03em' }}
-            >
-              Infraestructura y Planta de Procesamiento
-            </h2>
-            <p className="text-black/70 text-base leading-relaxed">
-              Nuestra planta en Manta opera bajo rigurosos protocolos sanitarios internacionales (HACCP / FDA / UE), equipada para procesar y acondicionar pescado fresco y ultracongelado a bordo.
-            </p>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-            <div className="bg-white p-6 md:p-8 rounded-2xl border border-black/5 shadow-sm">
-              <div className="text-black font-mono text-sm font-semibold mb-2">01 / EN ALTA MAR</div>
-              <h3 className="text-xl font-medium text-black mb-3">Ultracongelación a Bordo</h3>
-              <p className="text-black/60 text-sm leading-relaxed mb-4">
-                La ultracongelación inmediata a bordo preserva los jugos, la textura firme y el color natural de la captura desde el momento de su extracción.
-              </p>
-              <div className="text-xs text-black/50 font-medium">Calidad bloqueada en origen</div>
-            </div>
-
-            <div className="bg-white p-6 md:p-8 rounded-2xl border border-black/5 shadow-sm">
-              <div className="text-black font-mono text-sm font-semibold mb-2">02 / SALA BLANCA HACCP</div>
-              <h3 className="text-xl font-medium text-black mb-3">Mesa de Fileteo y Saku</h3>
-              <p className="text-black/60 text-sm leading-relaxed mb-4">
-                Ambiente climatizado a 10°C constante para evitar la proliferación bacteriana durante el corte manual de lomos, porciones y bloques saku para sushi listos para consumo.
-              </p>
-              <div className="text-xs text-black/50 font-medium">Operarios certificados BPM</div>
-            </div>
-
-            <div className="bg-white p-6 md:p-8 rounded-2xl border border-black/5 shadow-sm">
-              <div className="text-black font-mono text-sm font-semibold mb-2">03 / COLD STORAGE</div>
-              <h3 className="text-xl font-medium text-black mb-3">Cámara de Mantenimiento</h3>
-              <p className="text-black/60 text-sm leading-relaxed mb-4">
-                Almacenes frigoríficos con respaldo eléctrico dual continuo para salvaguardar inventarios consolidados antes del despacho en contenedor refrigerado o flete aéreo express.
-              </p>
-              <div className="text-xs text-black/50 font-medium">Temperatura: -30°C a -60°C</div>
-            </div>
-          </div>
-
-          <div className="rounded-3xl overflow-hidden relative min-h-[360px] bg-neutral-900 border border-black/10 flex items-end p-8 md:p-12">
-            <img
-              src="/assets/korea_logistics.jpg"
-              alt="Logística de exportación Blaufish"
-              className="absolute inset-0 w-full h-full object-cover opacity-60"
-            />
-            <div className="relative z-10 max-w-xl text-white">
-              <div className="text-xs font-semibold uppercase tracking-wider text-white/60 mb-2">
-                Conexión Portuaria Estratégica
-              </div>
-              <h3 className="text-2xl md:text-3xl font-medium mb-3">
-                Muelle de Manta y Aeropuerto Eloy Alfaro
-              </h3>
-              <p className="text-white/80 text-sm leading-relaxed mb-6 font-light">
-                A solo 15 minutos del muelle de descarga pesquera y conectados con los aeropuertos internacionales de Quito (UIO) y Guayaquil (GYE) para transferencias intercontinentales sin romper la cadena de frío.
-              </p>
-              <button
-                onClick={onOpenPortal}
-                className="bg-white text-black px-6 py-2.5 rounded-full text-sm font-medium hover:bg-white/90 transition-colors shadow"
-              >
-                Solicitar Visita Técnica a Planta
-              </button>
-            </div>
-          </div>
-        </section>
-      )}
 
       {/* ========================================================================= */}
       {/* 3. RESPONSABILIDAD SOCIAL Y SOSTENIBILIDAD                                 */}

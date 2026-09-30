@@ -77,7 +77,7 @@ const destinations: MarqueeItem[] = [
 
 export const BrandMarquee: React.FC = () => {
   return (
-    <div className="mt-16 md:mt-24 w-full max-w-md overflow-hidden relative">
+    <div className="mt-6 md:mt-8 w-full max-w-md overflow-hidden relative">
       <style>{`
         @keyframes marquee {
           0% { transform: translateX(0%); }

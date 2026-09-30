@@ -10,7 +10,6 @@ interface SpeciesModalProps {
 interface SpecieItem {
   id: string;
   name: string;
-  latin: string;
   photo: string;
   grade: string;
   fatContent: string;
@@ -23,7 +22,6 @@ const speciesList: SpecieItem[] = [
   {
     id: 'picudo',
     name: 'Pez Espada / Picudo del Pacífico',
-    latin: 'Xiphias gladius',
     photo: '/assets/picudo_hero.jpg',
     grade: 'Grado Sashimi AAA Extra White',
     fatContent: 'Alto Contenido Graso (>8%)',
@@ -34,8 +32,7 @@ const speciesList: SpecieItem[] = [
   },
   {
     id: 'wahoo',
-    name: 'Wahoo / Peto Oceánico',
-    latin: 'Acanthocybium solandri',
+    name: 'Wahoo',
     photo: '/assets/wahoo_hero.jpg',
     grade: 'Grado Sushi #1',
     fatContent: 'Medio-Alto (5-8%)',
@@ -43,18 +40,6 @@ const speciesList: SpecieItem[] = [
     temp: 'Ultracongelación a Bordo',
     description:
       'Carne sumamente blanca y limpia con dulzor oceánico. Muy solicitada por los maestros de sushi en Seúl, Tokio y Nueva York.',
-  },
-  {
-    id: 'tuna',
-    name: 'Atún Aleta Amarilla & Ojo Grande',
-    latin: 'Thunnus albacares / Thunnus obesus',
-    photo: '/assets/sashimi_cuts.jpg',
-    grade: '#1+ Deep Ruby Sashimi',
-    fatContent: 'Alto (>10%)',
-    cuts: 'Bloques Saku AAA 500g, Center Cuts, Kama',
-    temp: 'Ultracongelación a Bordo',
-    description:
-      'Coloración rubí translúcida y textura aterciopelada aseguradas mediante ultracongelación a bordo tras la extracción en altamar.',
   },
 ];
 
@@ -150,9 +135,8 @@ export const SpeciesModal: React.FC<SpeciesModalProps> = ({ isOpen, onClose, ini
                         className="w-14 h-14 object-cover rounded-xl"
                       />
                       <div className="flex-1">
-                        <div className="font-medium text-sm leading-tight">{item.name}</div>
-                        <div className="text-xs opacity-60 italic">{item.latin}</div>
-                        <div className="text-[11px] font-semibold mt-1 opacity-80">
+                        <div className="font-medium text-sm leading-tight mb-1">{item.name}</div>
+                        <div className="text-[11px] font-semibold opacity-80">
                           {item.grade}
                         </div>
                       </div>

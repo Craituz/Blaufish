@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowLeft, Fish, Snowflake, Sparkles, ShieldCheck, PlaneTakeoff, CheckCircle, ArrowRight, Download, Thermometer } from 'lucide-react';
+import { ArrowLeft, Fish, Snowflake, Sparkles, ShieldCheck, CheckCircle, ArrowRight, Download, Thermometer } from 'lucide-react';
 import { NavView } from '../types/navigation';
 
 interface InformacionViewProps {
@@ -11,7 +11,6 @@ interface InformacionViewProps {
 interface ProductItem {
   id: string;
   name: string;
-  scientific: string;
   photo: string;
   grade: string;
   lipid: string;
@@ -25,8 +24,7 @@ interface ProductItem {
 const productsData: ProductItem[] = [
   {
     id: 'picudo',
-    name: 'Pez Espada / Picudo del Pacífico',
-    scientific: 'Xiphias gladius',
+    name: 'Picudo del Pacífico',
     photo: '/assets/picudo_hero.jpg',
     grade: 'Grado Sashimi AAA / Extra White',
     lipid: '8% - 12% (Alto contenido graso)',
@@ -38,8 +36,7 @@ const productsData: ProductItem[] = [
   },
   {
     id: 'wahoo',
-    name: 'Wahoo / Peto Oceánico',
-    scientific: 'Acanthocybium solandri',
+    name: 'Wahoo',
     photo: '/assets/wahoo_hero.jpg',
     grade: 'Grado Sushi #1',
     lipid: '5% - 8% (Medio-Alto)',
@@ -48,19 +45,6 @@ const productsData: ProductItem[] = [
     temp: 'Ultracongelación a Bordo',
     seasons: 'Todo el año',
     desc: 'Conocido como "Ono" en el Pacífico, es uno de los peces más veloces del océano. Su carne blanca perlada ofrece una textura tersa y un sabor delicado, ideal para tiraditos, ceviches de alta gama y nigiris.',
-  },
-  {
-    id: 'atun',
-    name: 'Atún Aleta Amarilla & Ojo Grande',
-    scientific: 'Thunnus albacares / Thunnus obesus',
-    photo: '/assets/sashimi_cuts.jpg',
-    grade: '#1+ Deep Ruby Sashimi',
-    lipid: 'Variable según marea (>10% en época fría)',
-    texture: 'Suave, untuosa, color rubí traslúcido',
-    cuts: ['Saku AAA 500g', 'Lomos Center-Cut IVP', 'Kama (Collares para asado)', 'Cuchareo / Maguro Tartar'],
-    temp: 'Ultracongelación a Bordo',
-    seasons: 'Todo el año con cuotas CIAT',
-    desc: 'Procesado inmediatamente tras el desembarque para preservar la mioglobina celular y evitar la oxidación oscura (metamioglobina). Color rojo intenso y translúcido que permanece intacto al descongelar.',
   },
 ];
 
@@ -72,7 +56,7 @@ export const InformacionView: React.FC<InformacionViewProps> = ({
   const [selectedProduct, setSelectedProduct] = useState<ProductItem>(productsData[0]);
 
   // Determine active tab
-  const activeTab = ['productos', 'cadena-frio', 'trazabilidad', 'certificaciones', 'logistica'].includes(currentSubView)
+  const activeTab = ['productos', 'cadena-frio', 'trazabilidad', 'certificaciones'].includes(currentSubView)
     ? currentSubView
     : 'productos';
 
@@ -92,43 +76,31 @@ export const InformacionView: React.FC<InformacionViewProps> = ({
         <div className="flex flex-wrap items-center gap-1.5 p-1.5 bg-black/5 rounded-full">
           <button
             onClick={() => onNavigate('productos')}
-            className={`px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer ${
-              activeTab === 'productos' ? 'bg-[#142344] text-white shadow-sm' : 'text-black/60 hover:text-black'
-            }`}
+            className={`px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer ${activeTab === 'productos' ? 'bg-[#142344] text-white shadow-sm' : 'text-black/60 hover:text-black'
+              }`}
           >
             Especies & Productos
           </button>
           <button
             onClick={() => onNavigate('cadena-frio')}
-            className={`px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer ${
-              activeTab === 'cadena-frio' ? 'bg-[#142344] text-white shadow-sm' : 'text-black/60 hover:text-black'
-            }`}
+            className={`px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer ${activeTab === 'cadena-frio' ? 'bg-[#142344] text-white shadow-sm' : 'text-black/60 hover:text-black'
+              }`}
           >
             Cadena de Frío
           </button>
           <button
             onClick={() => onNavigate('trazabilidad')}
-            className={`px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer ${
-              activeTab === 'trazabilidad' ? 'bg-[#142344] text-white shadow-sm' : 'text-black/60 hover:text-black'
-            }`}
+            className={`px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer ${activeTab === 'trazabilidad' ? 'bg-[#142344] text-white shadow-sm' : 'text-black/60 hover:text-black'
+              }`}
           >
             Trazabilidad
           </button>
           <button
             onClick={() => onNavigate('certificaciones')}
-            className={`px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer ${
-              activeTab === 'certificaciones' ? 'bg-[#142344] text-white shadow-sm' : 'text-black/60 hover:text-black'
-            }`}
+            className={`px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer ${activeTab === 'certificaciones' ? 'bg-[#142344] text-white shadow-sm' : 'text-black/60 hover:text-black'
+              }`}
           >
             Certificaciones
-          </button>
-          <button
-            onClick={() => onNavigate('logistica')}
-            className={`px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer ${
-              activeTab === 'logistica' ? 'bg-[#142344] text-white shadow-sm' : 'text-black/60 hover:text-black'
-            }`}
-          >
-            Logística
           </button>
         </div>
       </div>
@@ -155,26 +127,22 @@ export const InformacionView: React.FC<InformacionViewProps> = ({
           </div>
 
           {/* Species Selector Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-8 max-w-4xl">
             {productsData.map((item) => {
               const isSelected = item.id === selectedProduct.id;
               return (
                 <button
                   key={item.id}
                   onClick={() => setSelectedProduct(item)}
-                  className={`p-4 rounded-2xl border text-left transition-all cursor-pointer ${
-                    isSelected
-                      ? 'bg-[#142344] text-white border-[#142344] shadow-lg scale-[1.01]'
-                      : 'bg-white hover:bg-neutral-50 text-black border-black/10 shadow-sm'
-                  }`}
+                  className={`p-4 rounded-2xl border text-left transition-all cursor-pointer ${isSelected
+                    ? 'bg-[#142344] text-white border-[#142344] shadow-lg scale-[1.01]'
+                    : 'bg-white hover:bg-neutral-50 text-black border-black/10 shadow-sm'
+                    }`}
                 >
                   <div className="aspect-[16/10] rounded-xl overflow-hidden mb-3 bg-neutral-100">
                     <img src={item.photo} alt={item.name} className="w-full h-full object-cover" />
                   </div>
-                  <div className="text-xs uppercase font-semibold opacity-60 italic mb-0.5">
-                    {item.scientific}
-                  </div>
-                  <div className="text-base font-medium leading-snug mb-1">{item.name}</div>
+                  <div className="text-lg font-medium leading-snug mb-1">{item.name}</div>
                   <div className="text-xs font-semibold opacity-80">{item.grade}</div>
                 </button>
               );
@@ -185,9 +153,6 @@ export const InformacionView: React.FC<InformacionViewProps> = ({
           <div className="bg-white rounded-3xl p-6 md:p-10 border border-black/5 shadow-sm mb-12">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
               <div className="lg:col-span-7">
-                <div className="inline-block px-3 py-1 rounded-full bg-black/5 text-black text-xs font-semibold uppercase tracking-wider mb-3">
-                  {selectedProduct.scientific}
-                </div>
                 <h2 className="text-3xl font-medium text-black mb-4">{selectedProduct.name}</h2>
                 <p className="text-black/70 text-base leading-relaxed mb-6 font-light">
                   {selectedProduct.desc}
@@ -449,86 +414,6 @@ export const InformacionView: React.FC<InformacionViewProps> = ({
         </section>
       )}
 
-      {/* ========================================================================= */}
-      {/* 5. LOGÍSTICA & RUTAS TAB                                                  */}
-      {/* ========================================================================= */}
-      {activeTab === 'logistica' && (
-        <section className="animate-in fade-in duration-300">
-          <div className="max-w-2xl mb-12">
-            <div className="inline-flex items-center gap-2 text-xs uppercase tracking-widest font-semibold text-black/50 mb-2">
-              <PlaneTakeoff className="w-3.5 h-3.5" />
-              <span>Conexión Global desde Manta</span>
-            </div>
-            <h1
-              className="text-3xl md:text-5xl font-medium tracking-tight text-black mb-3"
-              style={{ letterSpacing: '-0.03em' }}
-            >
-              Logística Express Aérea & Marítima
-            </h1>
-            <p className="text-black/70 text-base leading-relaxed">
-              Despachamos semanalmente con itinerarios programados hacia los principales centros de distribución del mundo.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-            <div className="bg-white p-8 rounded-3xl border border-black/5 shadow-sm">
-              <h3 className="text-2xl font-medium text-black mb-4">1. Rutas Aéreas (Menos de 36 Horas)</h3>
-              <ul className="space-y-3 text-sm text-black/70 mb-6">
-                <li className="flex items-center justify-between pb-2 border-b border-black/5">
-                  <span>Manta / Quito (UIO) → Seúl Incheon (ICN)</span>
-                  <strong className="text-black font-mono">32h tránsito</strong>
-                </li>
-                <li className="flex items-center justify-between pb-2 border-b border-black/5">
-                  <span>Manta / Quito (UIO) → Tokio Narita (NRT)</span>
-                  <strong className="text-black font-mono">34h tránsito</strong>
-                </li>
-                <li className="flex items-center justify-between pb-2 border-b border-black/5">
-                  <span>Manta / Guayaquil (GYE) → Miami (MIA)</span>
-                  <strong className="text-black font-mono">14h tránsito</strong>
-                </li>
-                <li className="flex items-center justify-between pb-2 border-b border-black/5">
-                  <span>Manta / Quito (UIO) → Frankfurt (FRA)</span>
-                  <strong className="text-black font-mono">22h tránsito</strong>
-                </li>
-              </ul>
-              <button
-                onClick={() => onOpenPortal('Flete Aéreo Express')}
-                className="w-full bg-[#142344] text-white py-3 rounded-full text-sm font-medium hover:bg-[#1d3260] transition-colors cursor-pointer"
-              >
-                Solicitar Espacio Aéreo
-              </button>
-            </div>
-
-            <div className="bg-white p-8 rounded-3xl border border-black/5 shadow-sm">
-              <h3 className="text-2xl font-medium text-black mb-4">2. Contenedores Marítimos Reefers (-60°C)</h3>
-              <ul className="space-y-3 text-sm text-black/70 mb-6">
-                <li className="flex items-center justify-between pb-2 border-b border-black/5">
-                  <span>Puerto Manta / Guayaquil → Busan (Corea)</span>
-                  <strong className="text-black font-mono">26 días marítimos</strong>
-                </li>
-                <li className="flex items-center justify-between pb-2 border-b border-black/5">
-                  <span>Puerto Manta / Guayaquil → Hamburgo / Rotterdam</span>
-                  <strong className="text-black font-mono">18 días marítimos</strong>
-                </li>
-                <li className="flex items-center justify-between pb-2 border-b border-black/5">
-                  <span>Puerto Manta / Guayaquil → Los Ángeles / Long Beach</span>
-                  <strong className="text-black font-mono">12 días marítimos</strong>
-                </li>
-                <li className="flex items-center justify-between pb-2 border-b border-black/5">
-                  <span>Capacidad por Contenedor FCL 40'</span>
-                  <strong className="text-black font-mono">22 - 26 Toneladas</strong>
-                </li>
-              </ul>
-              <button
-                onClick={() => onOpenPortal('Contenedor Marítimo -60C')}
-                className="w-full bg-[#142344] text-white py-3 rounded-full text-sm font-medium hover:bg-[#1d3260] transition-colors cursor-pointer"
-              >
-                Solicitar Reserva de Contenedor FCL
-              </button>
-            </div>
-          </div>
-        </section>
-      )}
     </div>
   );
 };

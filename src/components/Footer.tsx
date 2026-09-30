@@ -53,14 +53,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenPortal }) => {
                   Quiénes Somos
                 </button>
               </li>
-              <li>
-                <button
-                  onClick={() => onNavigate('infraestructura')}
-                  className="hover:text-black transition-colors text-left cursor-pointer"
-                >
-                  Infraestructura y Planta
-                </button>
-              </li>
+
               <li>
                 <button
                   onClick={() => onNavigate('responsabilidad-social')}
@@ -99,15 +92,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenPortal }) => {
                   onClick={() => onNavigate('productos')}
                   className="hover:text-black transition-colors text-left cursor-pointer"
                 >
-                  Wahoo (Ono / Peto)
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => onNavigate('productos')}
-                  className="hover:text-black transition-colors text-left cursor-pointer"
-                >
-                  Atún Aleta Amarilla
+                  Wahoo
                 </button>
               </li>
               <li>
@@ -120,10 +105,18 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenPortal }) => {
               </li>
               <li>
                 <button
-                  onClick={() => onNavigate('logistica')}
+                  onClick={() => onNavigate('trazabilidad')}
                   className="hover:text-black transition-colors text-left cursor-pointer"
                 >
-                  Rutas Comerciales
+                  Trazabilidad Satelital
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => onNavigate('certificaciones')}
+                  className="hover:text-black transition-colors text-left cursor-pointer"
+                >
+                  Certificaciones & Calidad
                 </button>
               </li>
             </ul>

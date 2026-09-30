@@ -47,15 +47,16 @@ export const InfoSection: React.FC<InfoSectionProps> = ({ onDiscover, onNavigate
           {/* Card 1: Spans 2 cols on lg, with high-res authentic harvest imagery */}
           <div
             onClick={() => onNavigate('productos')}
-            className="lg:col-span-2 rounded-2xl relative overflow-hidden group p-7 min-h-80 flex flex-col justify-between shadow-sm border border-black/5 cursor-pointer"
+            className="lg:col-span-2 rounded-2xl relative overflow-hidden group p-7 min-h-80 flex flex-col justify-between shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer"
             style={{
               backgroundImage: 'url(/assets/picudo_hero.jpg)',
               backgroundSize: 'cover',
-              backgroundPosition: 'center',
+              backgroundPosition: 'center 35%',
             }}
           >
-            {/* Luminous frosted scrim to ensure pristine text readability */}
-            <div className="absolute inset-0 bg-gradient-to-t from-white/95 via-white/45 to-white/80 pointer-events-none group-hover:opacity-90 transition-opacity duration-300" />
+            {/* Luminous frosted diffuse scrim: softly diffuses background edges and hard lines */}
+            <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/80 to-white/20 backdrop-blur-[3px] pointer-events-none group-hover:opacity-95 transition-opacity duration-300" />
+            <div className="absolute inset-0 bg-gradient-to-t from-white/95 via-transparent to-white/70 pointer-events-none" />
 
             {/* Title (top) */}
             <div className="relative z-10">
@@ -73,7 +74,7 @@ export const InfoSection: React.FC<InfoSectionProps> = ({ onDiscover, onNavigate
             {/* Body (bottom) */}
             <div className="relative z-10">
               <p className="text-black/80 text-base max-w-sm font-normal leading-relaxed">
-                Acceso directo a Pez Espada (Picudo), Wahoo y Atún capturados por flotas artesanales selectivas bajo rigurosas buenas prácticas pesqueras.
+                Acceso directo a Pez Espada (Picudo) y Wahoo capturados por flotas artesanales selectivas bajo rigurosas buenas prácticas pesqueras.
               </p>
             </div>
           </div>

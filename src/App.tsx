@@ -63,8 +63,11 @@ export const App: React.FC = () => {
           {/* 3. Backed By Section (30s Marquee de Certificaciones) */}
           <BackedBySection />
 
-          {/* 4. Use Cases Section ("Modos de exportación") */}
-          <UseCasesSection onSelectMode={(mode) => handleOpenPortal(mode)} />
+          {/* 4. Pilares Clave ("Explora Blaufish") */}
+          <UseCasesSection
+            onNavigate={handleNavigate}
+            onOpenPortal={() => handleOpenPortal()}
+          />
         </main>
       )}
 

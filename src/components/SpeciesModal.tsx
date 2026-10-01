@@ -1,5 +1,15 @@
-import React, { useState } from 'react';
-import { X, CheckCircle, ThermometerSnowflake, FileText, Send, Building } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import {
+  X,
+  CheckCircle,
+  AlertCircle,
+  ThermometerSnowflake,
+  Send,
+  Loader2,
+  Mail,
+  Phone,
+  User,
+} from 'lucide-react';
 
 interface SpeciesModalProps {
   isOpen: boolean;
@@ -13,22 +23,20 @@ interface SpecieItem {
   photo: string;
   grade: string;
   fatContent: string;
-  cuts: string;
-  temp: string;
+  cuts?: string;
+  temp?: string;
   description: string;
 }
 
 const speciesList: SpecieItem[] = [
   {
     id: 'picudo',
-    name: 'Pez Espada / Picudo del Pacífico',
+    name: 'Picudo',
     photo: '/assets/picudo_hero.jpg',
     grade: 'Grado Sashimi AAA Extra White',
     fatContent: 'Alto Contenido Graso (>8%)',
-    cuts: 'Lomos limpios, Saku, Rodajas/Steaks, Entero G&G',
-    temp: 'Ultracongelación a Bordo o Fresco en Hielo (0°C)',
     description:
-      'Apreciado por su carne blanca brillante, textura densa y sabor delicado. Extraído por palangre artesanal selectivo en aguas frías de Humboldt.',
+      'El Picudo es un pescado de carne firme, textura consistente y sabor delicado, apreciado por su versatilidad en la gastronomía. Su carne de excelente calidad lo convierte en una opción ideal para filetes, porciones y preparaciones a la parrilla, ofreciendo un producto atractivo tanto para el mercado nacional como internacional.',
   },
   {
     id: 'wahoo',
@@ -36,32 +44,203 @@ const speciesList: SpecieItem[] = [
     photo: '/assets/wahoo_hero.jpg',
     grade: 'Grado Sushi #1',
     fatContent: 'Medio-Alto (5-8%)',
-    cuts: 'Lomos deshuesados, Porciones IQF al vacío',
-    temp: 'Ultracongelación a Bordo',
     description:
-      'Carne sumamente blanca y limpia con dulzor oceánico. Muy solicitada por los maestros de sushi en Seúl, Tokio y Nueva York.',
+      'El Wahoo es un pescado de carne blanca, firme y jugosa, reconocido por su textura suave y sabor delicado. Es muy apreciado en la gastronomía por su versatilidad y excelente rendimiento, siendo ideal para filetes, porciones, parrilla y preparaciones de alta cocina.',
   },
 ];
+
+const TARGET_EMAIL = 'cristhianperez663@gmail.com';
+
+const FIELD_LIMITS = {
+  name: 50,
+  contact: 20,
+  email: 40,
+  description: 500,
+} as const;
 
 export const SpeciesModal: React.FC<SpeciesModalProps> = ({ isOpen, onClose, initialMode }) => {
   const [selectedSpecies, setSelectedSpecies] = useState(speciesList[0]);
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const [formData, setFormData] = useState({
     name: '',
-    company: '',
+    contact: '',
     email: '',
-    phone: '',
-    destination: 'Seúl Incheon (ICN) - Aéreo',
-    volume: '2.5 Toneladas Métricas (Chárter Aéreo)',
-    mode: initialMode || 'Chárter Aéreo Express',
-    notes: '',
+    description: '',
   });
+
+  const [errors, setErrors] = useState<{
+    name?: string;
+    contact?: string;
+    email?: string;
+    description?: string;
+  }>({});
+
+  const [touched, setTouched] = useState<{
+    name?: boolean;
+    contact?: boolean;
+    email?: boolean;
+    description?: boolean;
+  }>({});
+
+  // Reset or initialize when opened
+  useEffect(() => {
+    if (isOpen) {
+      if (initialMode && !formData.description) {
+        setFormData((prev) => ({
+          ...prev,
+          description: `Modalidad de interés: ${initialMode}\n`,
+        }));
+      }
+    }
+  }, [isOpen, initialMode]);
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const validate = (data = formData) => {
+    const newErrors: {
+      name?: string;
+      contact?: string;
+      email?: string;
+      description?: string;
+    } = {};
+
+    // Validación Nombre (mínimo 3, máximo 60)
+    const trimmedName = data.name.trim();
+    if (!trimmedName) {
+      newErrors.name = 'El nombre o empresa es obligatorio.';
+    } else if (trimmedName.length < 3) {
+      newErrors.name = 'Debe contener al menos 3 caracteres.';
+    } else if (data.name.length > FIELD_LIMITS.name) {
+      newErrors.name = `Máximo ${FIELD_LIMITS.name} caracteres permitidos.`;
+    }
+
+    // Validación Contacto (mínimo 7 dígitos numéricos, máximo 20)
+    const trimmedContact = data.contact.trim();
+    const digitsOnly = trimmedContact.replace(/\D/g, '');
+    if (!trimmedContact) {
+      newErrors.contact = 'El número de contacto o WhatsApp es obligatorio.';
+    } else if (digitsOnly.length < 7) {
+      newErrors.contact = 'Debe contener al menos 7 dígitos numéricos.';
+    } else if (data.contact.length > FIELD_LIMITS.contact) {
+      newErrors.contact = `Máximo ${FIELD_LIMITS.contact} caracteres permitidos.`;
+    }
+
+    // Validación Correo (máximo 80)
+    const trimmedEmail = data.email.trim();
+    if (!trimmedEmail) {
+      newErrors.email = 'El correo electrónico es obligatorio.';
+    } else if (data.email.length > FIELD_LIMITS.email) {
+      newErrors.email = `Máximo ${FIELD_LIMITS.email} caracteres permitidos.`;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmedEmail)) {
+      newErrors.email = 'Ingresa una dirección de correo válida.';
+    }
+
+    // Validación Descripción (mínimo 10, máximo 500)
+    const trimmedDesc = data.description.trim();
+    if (!trimmedDesc) {
+      newErrors.description = 'La descripción del requerimiento es obligatoria.';
+    } else if (trimmedDesc.length < 10) {
+      newErrors.description = 'Detalla tu requerimiento con al menos 10 caracteres.';
+    } else if (data.description.length > FIELD_LIMITS.description) {
+      newErrors.description = `Máximo ${FIELD_LIMITS.description} caracteres permitidos.`;
+    }
+
+    return newErrors;
+  };
+
+  const handleChange = (field: keyof typeof formData, value: string) => {
+    // Si es contacto, permitir únicamente caracteres válidos para números telefónicos (+, dígitos, espacios, -, (, ))
+    if (field === 'contact') {
+      const filtered = value.replace(/[^\d\s+\-()]/g, '');
+      if (filtered.length > FIELD_LIMITS.contact) return;
+      value = filtered;
+    }
+
+    // Limitar longitud máxima por apartado
+    if (value.length > FIELD_LIMITS[field]) {
+      value = value.slice(0, FIELD_LIMITS[field]);
+    }
+
+    const updated = { ...formData, [field]: value };
+    setFormData(updated);
+
+    if (touched[field]) {
+      const validationErrors = validate(updated);
+      setErrors((prev) => ({ ...prev, [field]: validationErrors[field] }));
+    }
+  };
+
+  const handleBlur = (field: keyof typeof formData) => {
+    setTouched((prev) => ({ ...prev, [field]: true }));
+    const validationErrors = validate(formData);
+    setErrors((prev) => ({ ...prev, [field]: validationErrors[field] }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+
+    setTouched({ name: true, contact: true, email: true, description: true });
+    const validationErrors = validate(formData);
+    setErrors(validationErrors);
+
+    if (Object.keys(validationErrors).length > 0) {
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      // Envío del requerimiento por correo a través del endpoint de FormSubmit hacia TARGET_EMAIL
+      await fetch(`https://formsubmit.co/ajax/${TARGET_EMAIL}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          _subject: `Nueva Solicitud Blaufish: ${formData.name} - ${selectedSpecies.name}`,
+          _template: 'table',
+          _captcha: 'false',
+          'Nombre / Empresa': formData.name,
+          'Teléfono / Contacto': formData.contact,
+          'Correo Electrónico': formData.email,
+          'Especie Seleccionada': `${selectedSpecies.name} (${selectedSpecies.grade})`,
+          'Modalidad Sugerida': initialMode || 'Consulta Estándar',
+          'Descripción del Requerimiento': formData.description,
+        }),
+      });
+
+      setSubmitted(true);
+    } catch (error) {
+      console.warn('Error al conectar con el servicio de correo:', error);
+      // Marcamos igualmente como submitted para permitir apertura directa por mailto
+      setSubmitted(true);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleResetAndClose = () => {
+    setSubmitted(false);
+    setFormData({ name: '', contact: '', email: '', description: '' });
+    setTouched({});
+    setErrors({});
+    onClose();
+  };
+
+  const renderCharCounter = (current: number, max: number) => {
+    const isNear = current >= max * 0.85;
+    const isAt = current >= max;
+    return (
+      <span
+        className={`text-[11px] font-mono transition-colors ${isAt ? 'text-rose-600 font-semibold' : isNear ? 'text-amber-600 font-medium' : 'text-black/40'
+          }`}
+      >
+        {current}/{max}
+      </span>
+    );
   };
 
   return (
@@ -74,11 +253,11 @@ export const SpeciesModal: React.FC<SpeciesModalProps> = ({ isOpen, onClose, ini
               Mesa de Comercio Exterior • Manta
             </span>
             <h2 className="text-xl md:text-2xl font-medium tracking-tight text-black">
-              Portal de Clientes & Solicitud de Cuotas
+              Portal de Clientes & Solicitud de Cotización
             </h2>
           </div>
           <button
-            onClick={onClose}
+            onClick={handleResetAndClose}
             className="p-2 rounded-full hover:bg-black/5 text-black/70 hover:text-black transition-colors cursor-pointer"
           >
             <X className="w-6 h-6" />
@@ -88,28 +267,64 @@ export const SpeciesModal: React.FC<SpeciesModalProps> = ({ isOpen, onClose, ini
         {/* Modal Body */}
         <div className="p-6 md:p-8">
           {submitted ? (
-            <div className="py-12 text-center max-w-md mx-auto">
-              <div className="w-16 h-16 bg-[#142344] text-white rounded-full flex items-center justify-center mx-auto mb-6">
+            <div className="py-8 text-center max-w-lg mx-auto animate-in zoom-in-95 duration-200">
+              <div className="w-16 h-16 bg-[#142344] text-white rounded-full flex items-center justify-center mx-auto mb-5 shadow-lg shadow-[#142344]/20">
                 <CheckCircle className="w-8 h-8" />
               </div>
-              <h3 className="text-3xl font-medium tracking-tight text-black mb-3">
-                Solicitud Registrada
+              <h3 className="text-2xl md:text-3xl font-medium tracking-tight text-black mb-3">
+                ¡Solicitud Registrada con Éxito!
               </h3>
-              <p className="text-black/70 text-sm md:text-base mb-8 leading-relaxed">
-                Estimado(a) <strong>{formData.name || formData.company || 'Cliente'}</strong>, hemos recibido su solicitud de asignación de cuota para{' '}
-                <strong>{selectedSpecies.name}</strong> con destino a{' '}
-                <strong>{formData.destination}</strong> bajo la referencia{' '}
-                <span className="font-mono font-semibold text-[#142344] bg-[#142344]/5 px-2 py-0.5 rounded">BF-2026-EC</span>. Nuestro oficial comercial se pondrá en contacto dentro de las próximas 2 horas hábiles.
+              <p className="text-black/70 text-sm md:text-base mb-6 leading-relaxed">
+                Estimado(a) <strong>{formData.name || 'Cliente'}</strong>, hemos recibido su requerimiento para{' '}
+                <strong>{selectedSpecies.name}</strong>. Se ha despachado la notificación al correo:{' '}
+                <span className="font-semibold text-[#142344] block mt-1">{TARGET_EMAIL}</span>
               </p>
-              <button
-                onClick={() => {
-                  setSubmitted(false);
-                  onClose();
-                }}
-                className="bg-[#142344] text-white px-8 py-3 rounded-full text-sm font-medium hover:bg-[#1d3260] transition-colors cursor-pointer"
-              >
-                Cerrar Portal
-              </button>
+
+              {/* Summary Card */}
+              <div className="bg-white p-5 rounded-2xl border border-black/5 text-left mb-6 shadow-sm text-xs space-y-2.5">
+                <div className="flex justify-between border-b border-black/5 pb-2">
+                  <span className="text-black/50">Nombre / Empresa:</span>
+                  <span className="font-medium text-black">{formData.name}</span>
+                </div>
+                <div className="flex justify-between border-b border-black/5 pb-2">
+                  <span className="text-black/50">Contacto / Teléfono:</span>
+                  <span className="font-medium text-black">{formData.contact}</span>
+                </div>
+                <div className="flex justify-between border-b border-black/5 pb-2">
+                  <span className="text-black/50">Correo:</span>
+                  <span className="font-medium text-black">{formData.email}</span>
+                </div>
+                <div className="flex justify-between border-b border-black/5 pb-2">
+                  <span className="text-black/50">Especie:</span>
+                  <span className="font-medium text-black">{selectedSpecies.name}</span>
+                </div>
+                <div>
+                  <span className="text-black/50 block mb-1">Descripción:</span>
+                  <p className="text-black/80 font-mono text-[11px] bg-[#F5F5F5] p-2.5 rounded-lg whitespace-pre-wrap">
+                    {formData.description}
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+                <button
+                  onClick={handleResetAndClose}
+                  className="w-full sm:w-auto bg-[#142344] text-white px-8 py-3 rounded-full text-sm font-medium hover:bg-[#1d3260] transition-colors cursor-pointer shadow-md"
+                >
+                  Cerrar Portal
+                </button>
+                <a
+                  href={`mailto:${TARGET_EMAIL}?subject=${encodeURIComponent(
+                    `Solicitud Blaufish: ${formData.name} - ${selectedSpecies.name}`
+                  )}&body=${encodeURIComponent(
+                    `Nombre / Empresa: ${formData.name}\nContacto: ${formData.contact}\nCorreo: ${formData.email}\nEspecie: ${selectedSpecies.name}\n\nDescripción:\n${formData.description}`
+                  )}`}
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white text-black/80 border border-black/10 px-6 py-3 rounded-full text-sm font-medium hover:bg-neutral-50 transition-colors cursor-pointer"
+                >
+                  <Mail className="w-4 h-4 text-[#142344]" />
+                  <span>Abrir en app de correo</span>
+                </a>
+              </div>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -122,12 +337,12 @@ export const SpeciesModal: React.FC<SpeciesModalProps> = ({ isOpen, onClose, ini
                   {speciesList.map((item) => (
                     <button
                       key={item.id}
+                      type="button"
                       onClick={() => setSelectedSpecies(item)}
-                      className={`flex items-center gap-3.5 p-3 rounded-2xl border text-left transition-all cursor-pointer ${
-                        selectedSpecies.id === item.id
-                          ? 'bg-[#142344] text-white border-[#142344] shadow'
-                          : 'bg-white hover:bg-neutral-50 text-black border-black/5'
-                      }`}
+                      className={`flex items-center gap-3.5 p-3 rounded-2xl border text-left transition-all cursor-pointer ${selectedSpecies.id === item.id
+                        ? 'bg-[#142344] text-white border-[#142344] shadow'
+                        : 'bg-white hover:bg-neutral-50 text-black border-black/5'
+                        }`}
                     >
                       <img
                         src={item.photo}
@@ -136,9 +351,7 @@ export const SpeciesModal: React.FC<SpeciesModalProps> = ({ isOpen, onClose, ini
                       />
                       <div className="flex-1">
                         <div className="font-medium text-sm leading-tight mb-1">{item.name}</div>
-                        <div className="text-[11px] font-semibold opacity-80">
-                          {item.grade}
-                        </div>
+                        <div className="text-[11px] font-semibold opacity-80">{item.grade}</div>
                       </div>
                     </button>
                   ))}
@@ -149,119 +362,189 @@ export const SpeciesModal: React.FC<SpeciesModalProps> = ({ isOpen, onClose, ini
                   <div className="text-xs font-semibold uppercase tracking-wider text-black/40 mb-2">
                     Ficha Técnica de Origen
                   </div>
-                  <p className="text-black/80 text-xs leading-relaxed mb-4 font-light">
+                  <p className="text-black/80 text-xs leading-relaxed font-light">
                     {selectedSpecies.description}
                   </p>
-                  <div className="grid grid-cols-2 gap-2 text-xs">
-                    <div className="bg-[#F5F5F5] p-2.5 rounded-xl">
-                      <span className="text-black/50 block text-[11px]">Formatos de Corte:</span>
-                      <strong className="text-black leading-tight block mt-0.5">{selectedSpecies.cuts}</strong>
+                  {selectedSpecies.cuts && selectedSpecies.temp && (
+                    <div className="grid grid-cols-2 gap-2 text-xs mt-4">
+                      <div className="bg-[#F5F5F5] p-2.5 rounded-xl">
+                        <span className="text-black/50 block text-[11px]">Formatos de Corte:</span>
+                        <strong className="text-black leading-tight block mt-0.5">
+                          {selectedSpecies.cuts}
+                        </strong>
+                      </div>
+                      <div className="bg-[#F5F5F5] p-2.5 rounded-xl">
+                        <span className="text-black/50 block text-[11px]">Régimen Térmico:</span>
+                        <strong className="text-black leading-tight block mt-0.5">
+                          {selectedSpecies.temp}
+                        </strong>
+                      </div>
                     </div>
-                    <div className="bg-[#F5F5F5] p-2.5 rounded-xl">
-                      <span className="text-black/50 block text-[11px]">Régimen Térmico:</span>
-                      <strong className="text-black leading-tight block mt-0.5">{selectedSpecies.temp}</strong>
-                    </div>
-                  </div>
+                  )}
                 </div>
               </div>
 
-              {/* Right Column: Allocation Form */}
+              {/* Right Column: Customer Details Form */}
               <div>
                 <h4 className="text-xs font-semibold uppercase tracking-wider text-black/50 mb-3">
-                  2. Datos del Importador & Logística
+                  2. Datos de Contacto & Requerimiento
                 </h4>
-                <form onSubmit={handleSubmit} className="flex flex-col gap-3.5">
+                <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-3.5">
+                  {/* Nombre */}
                   <div>
-                    <label className="block text-xs font-semibold text-black/60 mb-1">
-                      Nombre de la Empresa / Importador
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="Ej. Tokyo Marine Foods Co., Ltd."
-                      value={formData.company}
-                      onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                      className="w-full bg-white border border-black/10 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-black transition-colors"
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <label className="block text-xs font-semibold text-black/60 mb-1">
-                        Contacto Responsable
+                    <div className="flex items-center justify-between mb-1">
+                      <label className="block text-xs font-semibold text-black/70">
+                        Nombre completo / Empresa <span className="text-rose-500">*</span>
                       </label>
+                      {renderCharCounter(formData.name.length, FIELD_LIMITS.name)}
+                    </div>
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-black/40">
+                        <User className="w-4 h-4" />
+                      </div>
                       <input
                         type="text"
-                        required
-                        placeholder="Nombre y apellido"
+                        maxLength={FIELD_LIMITS.name}
+                        placeholder="Ej. Juan Pérez o Inversiones del Pacífico"
                         value={formData.name}
-                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        className="w-full bg-white border border-black/10 rounded-xl px-3 py-2.5 text-sm outline-none focus:border-black transition-colors"
+                        onChange={(e) => handleChange('name', e.target.value)}
+                        onBlur={() => handleBlur('name')}
+                        className={`w-full bg-white border rounded-xl pl-10 pr-3.5 py-2.5 text-sm outline-none transition-all ${touched.name && errors.name
+                          ? 'border-rose-400 bg-rose-50/20 focus:ring-2 focus:ring-rose-200'
+                          : 'border-black/10 focus:border-[#142344] focus:ring-2 focus:ring-[#142344]/10'
+                          }`}
                       />
                     </div>
+                    {touched.name && errors.name && (
+                      <p className="text-xs text-rose-600 mt-1 flex items-center gap-1 font-medium animate-in fade-in">
+                        <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                        <span>{errors.name}</span>
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Contacto y Correo en 2 columnas */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {/* Contacto */}
                     <div>
-                      <label className="block text-xs font-semibold text-black/60 mb-1">
-                        Correo Corporativo
-                      </label>
-                      <input
-                        type="email"
-                        required
-                        placeholder="import@empresa.com"
-                        value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        className="w-full bg-white border border-black/10 rounded-xl px-3 py-2.5 text-sm outline-none focus:border-black transition-colors"
-                      />
+                      <div className="flex items-center justify-between mb-1">
+                        <label className="block text-xs font-semibold text-black/70">
+                          Contacto (Tel / WhatsApp) <span className="text-rose-500">*</span>
+                        </label>
+                        {renderCharCounter(formData.contact.length, FIELD_LIMITS.contact)}
+                      </div>
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-black/40">
+                          <Phone className="w-4 h-4" />
+                        </div>
+                        <input
+                          type="tel"
+                          maxLength={FIELD_LIMITS.contact}
+                          placeholder="Ej. +593 99 123 4567"
+                          value={formData.contact}
+                          onChange={(e) => handleChange('contact', e.target.value)}
+                          onBlur={() => handleBlur('contact')}
+                          className={`w-full bg-white border rounded-xl pl-10 pr-3.5 py-2.5 text-sm outline-none transition-all ${touched.contact && errors.contact
+                            ? 'border-rose-400 bg-rose-50/20 focus:ring-2 focus:ring-rose-200'
+                            : 'border-black/10 focus:border-[#142344] focus:ring-2 focus:ring-[#142344]/10'
+                            }`}
+                        />
+                      </div>
+                      {touched.contact && errors.contact && (
+                        <p className="text-xs text-rose-600 mt-1 flex items-center gap-1 font-medium animate-in fade-in">
+                          <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                          <span>{errors.contact}</span>
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Correo */}
+                    <div>
+                      <div className="flex items-center justify-between mb-1">
+                        <label className="block text-xs font-semibold text-black/70">
+                          Correo Electrónico <span className="text-rose-500">*</span>
+                        </label>
+                        {renderCharCounter(formData.email.length, FIELD_LIMITS.email)}
+                      </div>
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-black/40">
+                          <Mail className="w-4 h-4" />
+                        </div>
+                        <input
+                          type="email"
+                          maxLength={FIELD_LIMITS.email}
+                          placeholder="contacto@empresa.com"
+                          value={formData.email}
+                          onChange={(e) => handleChange('email', e.target.value)}
+                          onBlur={() => handleBlur('email')}
+                          className={`w-full bg-white border rounded-xl pl-10 pr-3.5 py-2.5 text-sm outline-none transition-all ${touched.email && errors.email
+                            ? 'border-rose-400 bg-rose-50/20 focus:ring-2 focus:ring-rose-200'
+                            : 'border-black/10 focus:border-[#142344] focus:ring-2 focus:ring-[#142344]/10'
+                            }`}
+                        />
+                      </div>
+                      {touched.email && errors.email && (
+                        <p className="text-xs text-rose-600 mt-1 flex items-center gap-1 font-medium animate-in fade-in">
+                          <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                          <span>{errors.email}</span>
+                        </p>
+                      )}
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <label className="block text-xs font-semibold text-black/60 mb-1">
-                        Puerto / Aeropuerto Destino
+                  {/* Descripción */}
+                  <div>
+                    <div className="flex items-center justify-between mb-1">
+                      <label className="block text-xs font-semibold text-black/70">
+                        Descripción del Requerimiento <span className="text-rose-500">*</span>
                       </label>
-                      <select
-                        value={formData.destination}
-                        onChange={(e) => setFormData({ ...formData, destination: e.target.value })}
-                        className="w-full bg-white border border-black/10 rounded-xl px-3 py-2.5 text-sm outline-none focus:border-black"
-                      >
-                        <option>Seúl Incheon (ICN) - Aéreo</option>
-                        <option>Tokio Narita (NRT) - Aéreo</option>
-                        <option>Los Ángeles (LAX) - Aéreo</option>
-                        <option>Frankfurt (FRA) - Aéreo</option>
-                        <option>Puerto de Busan - Marítimo FCL</option>
-                        <option>Puerto de Hamburgo - Marítimo FCL</option>
-                      </select>
+                      {renderCharCounter(formData.description.length, FIELD_LIMITS.description)}
                     </div>
-
-                    <div>
-                      <label className="block text-xs font-semibold text-black/60 mb-1">
-                        Volumen Requerido
-                      </label>
-                      <select
-                        value={formData.volume}
-                        onChange={(e) => setFormData({ ...formData, volume: e.target.value })}
-                        className="w-full bg-white border border-black/10 rounded-xl px-3 py-2.5 text-sm outline-none focus:border-black"
-                      >
-                        <option>500 kg - Muestra Comercial</option>
-                        <option>2.5 TM - Despacho Aéreo Express</option>
-                        <option>5.0 TM - Programa Semanal</option>
-                        <option>1 x Contenedor FCL 40' (24 TM)</option>
-                      </select>
-                    </div>
+                    <textarea
+                      rows={4}
+                      maxLength={FIELD_LIMITS.description}
+                      placeholder="Detalla tu pedido: tipo de cortes deseados, presentación, fechas tentativas o cualquier duda para cotización..."
+                      value={formData.description}
+                      onChange={(e) => handleChange('description', e.target.value)}
+                      onBlur={() => handleBlur('description')}
+                      className={`w-full bg-white border rounded-xl p-3 text-sm outline-none transition-all resize-none ${touched.description && errors.description
+                        ? 'border-rose-400 bg-rose-50/20 focus:ring-2 focus:ring-rose-200'
+                        : 'border-black/10 focus:border-[#142344] focus:ring-2 focus:ring-[#142344]/10'
+                        }`}
+                    />
+                    {touched.description && errors.description && (
+                      <p className="text-xs text-rose-600 mt-1 flex items-center gap-1 font-medium animate-in fade-in">
+                        <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                        <span>{errors.description}</span>
+                      </p>
+                    )}
                   </div>
 
-                  <div className="bg-emerald-50 border border-emerald-200/60 p-3 rounded-xl text-emerald-900 text-xs flex items-start gap-2.5 mt-1">
+                  {/* Garantía & Certificación Banner */}
+                  <div className="bg-emerald-50 border border-emerald-200/60 p-3 rounded-xl text-emerald-900 text-xs flex items-start gap-2.5 mt-0.5">
                     <ThermometerSnowflake className="w-4 h-4 text-emerald-700 shrink-0 mt-0.5" />
                     <span>
-                      Incluye datalogger electrónico de monitoreo térmico y Certificado Oficial de Origen de la República del Ecuador.
+                      Notificación directa a la mesa comercial. Incluye asesoría técnica de cadena de frío y certificado oficial de origen.
                     </span>
                   </div>
 
+                  {/* Submit Button */}
                   <button
                     type="submit"
-                    className="w-full mt-2 bg-[#142344] text-white text-base font-medium py-3 rounded-full hover:bg-[#1d3260] transition-colors shadow-md hover:shadow-lg cursor-pointer"
+                    disabled={isSubmitting}
+                    className="w-full mt-2 bg-[#142344] text-white text-sm md:text-base font-medium py-3 rounded-full hover:bg-[#1d3260] transition-all shadow-md hover:shadow-lg cursor-pointer flex items-center justify-center gap-2 disabled:opacity-75 disabled:cursor-not-allowed"
                   >
-                    Enviar Solicitud a Mesa de Comercio Exterior
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <span>Enviando requerimiento...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Send className="w-4 h-4" />
+                        <span>Enviar Solicitud a Mesa de Comercio Exterior</span>
+                      </>
+                    )}
                   </button>
                 </form>
               </div>

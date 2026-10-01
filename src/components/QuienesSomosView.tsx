@@ -14,7 +14,7 @@ export const QuienesSomosView: React.FC<QuienesSomosViewProps> = ({
   onOpenPortal,
 }) => {
   return (
-    <div className="pt-32 md:pt-44 pb-24 px-4 md:px-6 max-w-[88rem] mx-auto">
+    <div className="pt-32 md:pt-44 pb-12 md:pb-16 px-4 md:px-6 max-w-[88rem] mx-auto">
       {/* Top Breadcrumb & Navigation */}
       <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
         <button
@@ -52,7 +52,7 @@ export const QuienesSomosView: React.FC<QuienesSomosViewProps> = ({
       {/* 1. QUIÉNES SOMOS SECTION                                                  */}
       {/* ========================================================================= */}
       {(currentSubView === 'quienes-somos' || currentSubView === 'inicio') && (
-        <section className="mb-20 animate-in fade-in duration-300">
+        <section className="animate-in fade-in duration-300">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start mb-16">
             <div className="lg:col-span-7">
               <div className="inline-flex items-center gap-2 text-xs uppercase tracking-widest font-semibold text-black/50 mb-3">
@@ -113,7 +113,7 @@ export const QuienesSomosView: React.FC<QuienesSomosViewProps> = ({
           </div>
 
           {/* Misión y Visión Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="bg-white p-8 md:p-10 rounded-3xl border border-black/5 shadow-sm">
               <div className="w-12 h-12 rounded-2xl bg-black text-white flex items-center justify-center mb-6">
                 <Anchor className="w-6 h-6" />
@@ -145,9 +145,9 @@ export const QuienesSomosView: React.FC<QuienesSomosViewProps> = ({
 
 
       {/* ========================================================================= */}
-      {/* 3. RESPONSABILIDAD SOCIAL Y SOSTENIBILIDAD                                 */}
+      {/* 2. RESPONSABILIDAD SOCIAL Y SOSTENIBILIDAD                                 */}
       {/* ========================================================================= */}
-      {(currentSubView === 'responsabilidad-social' || currentSubView === 'quienes-somos') && (
+      {currentSubView === 'responsabilidad-social' && (
         <section id="responsabilidad" className="pt-8 animate-in fade-in duration-300">
           <div className="max-w-2xl mb-12">
             <div className="inline-flex items-center gap-2 text-xs uppercase tracking-widest font-semibold text-black/50 mb-3">

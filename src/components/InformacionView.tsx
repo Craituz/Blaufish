@@ -32,7 +32,7 @@ const productsData: ProductItem[] = [
     cuts: ['Lomos sin piel y sin espinas', 'Bloques Saku para corte fino', 'Rodajas / Steaks con o sin piel', 'Entero G&G (Eviscerado sin agallas)'],
     temp: 'Ultracongelación a Bordo o Fresco en Hielo (0°C)',
     seasons: 'Todo el año (Pico: Mayo a Diciembre)',
-    desc: 'El Picudo de la corriente de Humboldt ecuatoriana es codiciado en los restaurantes de alta cocina de Seúl y Tokio por su carne blanquísima, sin vetas oscuras y con un balance lipídico ideal para sashimi crudo o a la parrilla robata.',
+    desc: 'El Picudo es un pescado de carne firme, textura consistente y sabor delicado, apreciado por su versatilidad en la gastronomía. Su carne de excelente calidad lo convierte en una opción ideal para filetes, porciones y preparaciones a la parrilla, ofreciendo un producto atractivo tanto para el mercado nacional como internacional.',
   },
   {
     id: 'wahoo',
@@ -44,7 +44,7 @@ const productsData: ProductItem[] = [
     cuts: ['Lomos limpios sin línea de sangre', 'Porciones congeladas IQF', 'Filetes al vacío con lámina separadora'],
     temp: 'Ultracongelación a Bordo',
     seasons: 'Todo el año',
-    desc: 'Conocido como "Ono" en el Pacífico, es uno de los peces más veloces del océano. Su carne blanca perlada ofrece una textura tersa y un sabor delicado, ideal para tiraditos, ceviches de alta gama y nigiris.',
+    desc: 'El Wahoo es un pescado de carne blanca, firme y jugosa, reconocido por su textura suave y sabor delicado. Apreciado en la gastronomía por su versatilidad y excelente rendimiento, es ideal para filetes, porciones, parrilla y preparaciones de alta cocina.',
   },
 ];
 
@@ -61,7 +61,7 @@ export const InformacionView: React.FC<InformacionViewProps> = ({
     : 'productos';
 
   return (
-    <div className="pt-32 md:pt-44 pb-24 px-4 md:px-6 max-w-[88rem] mx-auto">
+    <div className="pt-32 md:pt-44 pb-12 md:pb-16 px-4 md:px-6 max-w-[88rem] mx-auto">
       {/* Top Breadcrumb & Navigation */}
       <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
         <button
@@ -150,7 +150,7 @@ export const InformacionView: React.FC<InformacionViewProps> = ({
           </div>
 
           {/* Selected Species Detail Dossier */}
-          <div className="bg-white rounded-3xl p-6 md:p-10 border border-black/5 shadow-sm mb-12">
+          <div className="bg-white rounded-3xl p-6 md:p-10 border border-black/5 shadow-sm">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
               <div className="lg:col-span-7">
                 <h2 className="text-3xl font-medium text-black mb-4">{selectedProduct.name}</h2>
@@ -234,7 +234,7 @@ export const InformacionView: React.FC<InformacionViewProps> = ({
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="p-8 rounded-3xl text-white flex flex-col justify-between" style={{ backgroundColor: '#2B2644' }}>
               <div>
                 <Thermometer className="w-8 h-8 text-white/80 mb-4" />
@@ -298,7 +298,7 @@ export const InformacionView: React.FC<InformacionViewProps> = ({
             </p>
           </div>
 
-          <div className="bg-white rounded-3xl p-8 md:p-10 border border-black/5 shadow-sm mb-12">
+          <div className="bg-white rounded-3xl p-8 md:p-10 border border-black/5 shadow-sm">
             <h3 className="text-xl font-medium text-black mb-6">El Pasaporte Digital de Cada Captura:</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               <div className="p-4 rounded-2xl bg-[#F5F5F5]">
@@ -350,7 +350,7 @@ export const InformacionView: React.FC<InformacionViewProps> = ({
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             <div className="bg-white p-6 rounded-2xl border border-black/5 shadow-sm">
               <div className="text-xs font-semibold uppercase text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full w-fit mb-3">
                 Unión Europea

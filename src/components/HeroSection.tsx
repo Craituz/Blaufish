@@ -8,7 +8,7 @@ interface HeroSectionProps {
 export const HeroSection: React.FC<HeroSectionProps> = ({ onExplore }) => {
 
   return (
-    <div className="w-full h-full px-3 sm:px-6 md:px-8 pt-24 md:pt-28 pb-8 md:pb-12 flex flex-col">
+    <div className="w-full h-full px-3 sm:px-6 md:px-8 pt-24 md:pt-28 pb-4 md:pb-6 flex flex-col">
       {/* Inner card */}
       <div className="relative w-full flex-1 rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl bg-neutral-100 min-h-0">
         {/* Background Video: object-[75%_center] en móvil para ver más a la derecha, md:object-center en escritorio */}

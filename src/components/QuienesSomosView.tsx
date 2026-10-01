@@ -18,35 +18,37 @@ export const QuienesSomosView: React.FC<QuienesSomosViewProps> = ({
     <div className="pt-32 md:pt-44 pb-12 md:pb-16 px-4 md:px-6 max-w-[88rem] mx-auto">
       {/* Top Breadcrumb & Navigation */}
       <ScrollReveal delay={0} distance={20} className="mb-8">
-        <div className="flex flex-wrap items-center justify-between gap-4">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <button
             onClick={() => onNavigate('inicio')}
-            className="inline-flex items-center gap-2 text-sm font-medium text-black/60 hover:text-black transition-colors"
+            className="inline-flex items-center gap-2 text-sm font-medium text-black/60 hover:text-black transition-colors self-start sm:self-auto"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Volver al Inicio</span>
           </button>
 
           {/* Sub-tab pills */}
-          <div className="flex items-center gap-2 p-1.5 bg-black/5 rounded-full">
-            <button
-              onClick={() => onNavigate('quienes-somos')}
-              className={`px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all ${currentSubView === 'quienes-somos'
-                ? 'bg-[#142344] text-white shadow-sm'
-                : 'text-black/60 hover:text-black'
-                }`}
-            >
-              Quiénes Somos
-            </button>
-            <button
-              onClick={() => onNavigate('responsabilidad-social')}
-              className={`px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all ${currentSubView === 'responsabilidad-social'
-                ? 'bg-[#142344] text-white shadow-sm'
-                : 'text-black/60 hover:text-black'
-                }`}
-            >
-              Responsabilidad Social
-            </button>
+          <div className="w-full sm:w-auto flex justify-center">
+            <div className="inline-flex flex-wrap items-center justify-center gap-2 p-1.5 bg-black/5 rounded-full max-w-full text-center">
+              <button
+                onClick={() => onNavigate('quienes-somos')}
+                className={`px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer ${currentSubView === 'quienes-somos'
+                  ? 'bg-[#142344] text-white shadow-sm'
+                  : 'text-black/60 hover:text-black'
+                  }`}
+              >
+                Quiénes Somos
+              </button>
+              <button
+                onClick={() => onNavigate('responsabilidad-social')}
+                className={`px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer ${currentSubView === 'responsabilidad-social'
+                  ? 'bg-[#142344] text-white shadow-sm'
+                  : 'text-black/60 hover:text-black'
+                  }`}
+              >
+                Responsabilidad Social
+              </button>
+            </div>
           </div>
         </div>
       </ScrollReveal>
@@ -155,7 +157,7 @@ export const QuienesSomosView: React.FC<QuienesSomosViewProps> = ({
       {/* 2. RESPONSABILIDAD SOCIAL Y SOSTENIBILIDAD                                 */}
       {/* ========================================================================= */}
       {currentSubView === 'responsabilidad-social' && (
-        <section id="responsabilidad" className="pt-8 animate-in fade-in duration-300">
+        <section id="responsabilidad" className="animate-in fade-in duration-300">
           <ScrollReveal className="max-w-2xl mb-12" delay={0}>
             <div className="inline-flex items-center gap-2 text-xs uppercase tracking-widest font-semibold text-black/50 mb-3">
               <HeartHandshake className="w-3.5 h-3.5" />

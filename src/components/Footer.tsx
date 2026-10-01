@@ -3,13 +3,13 @@ import { Anchor, ShieldCheck, Mail, Phone, MapPin } from 'lucide-react';
 import { NavView } from '../types/navigation';
 
 interface FooterProps {
-  onNavigate: (view: NavView) => void;
+  onNavigate: (view: NavView, speciesId?: string) => void;
   onOpenPortal: () => void;
 }
 
 export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenPortal }) => {
   return (
-    <footer className="bg-[#F5F5F5] px-6 py-10 md:pt-16 md:pb-12 border-t border-black/10">
+    <footer className="bg-[#F5F5F5] px-6 py-10 md:pt-14 md:pb-10 border-t border-black/10">
       <div className="max-w-[88rem] mx-auto">
         {/* Vista Móvil (modo teléfono): Muestra la descripción, ubicaciones y la línea de copyright */}
         <div className="md:hidden">
@@ -33,7 +33,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenPortal }) => {
 
         {/* Vista Escritorio / Tablet: Estructura completa de 5 columnas y pie legal */}
         <div className="hidden md:block">
-          <div className="grid grid-cols-5 gap-10 mb-16">
+          <div className="grid grid-cols-5 gap-10 mb-12">
             {/* Brand Info */}
             <div className="col-span-2">
               <button
@@ -61,37 +61,53 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenPortal }) => {
               </div>
             </div>
 
-            {/* Column 1: Nosotros */}
-            <div>
-              <h4 className="text-xs uppercase tracking-widest font-semibold text-black/40 mb-4">
-                Nosotros
-              </h4>
-              <ul className="space-y-2.5 text-sm text-black/70">
-                <li>
-                  <button
-                    onClick={() => onNavigate('quienes-somos')}
-                    className="hover:text-black transition-colors text-left cursor-pointer"
-                  >
-                    Quiénes Somos
-                  </button>
-                </li>
-                <li>
-                  <button
-                    onClick={() => onNavigate('responsabilidad-social')}
-                    className="hover:text-black transition-colors text-left cursor-pointer"
-                  >
-                    Responsabilidad Social
-                  </button>
-                </li>
-                <li>
-                  <button
-                    onClick={() => onNavigate('trazabilidad')}
-                    className="hover:text-black transition-colors text-left cursor-pointer"
-                  >
-                    Trazabilidad de Flota
-                  </button>
-                </li>
-              </ul>
+            {/* Column 1: Nosotros & Información de Contacto */}
+            <div className="flex flex-col gap-6">
+              <div>
+                <h4 className="text-xs uppercase tracking-widest font-semibold text-black/40 mb-4">
+                  Nosotros
+                </h4>
+                <ul className="space-y-2.5 text-sm text-black/70">
+                  <li>
+                    <button
+                      onClick={() => onNavigate('quienes-somos')}
+                      className="hover:text-black transition-colors text-left cursor-pointer"
+                    >
+                      Quiénes Somos
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={() => onNavigate('responsabilidad-social')}
+                      className="hover:text-black transition-colors text-left cursor-pointer"
+                    >
+                      Responsabilidad Social
+                    </button>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="pt-5 border-t border-black/5">
+                <h4 className="text-xs uppercase tracking-widest font-semibold text-black/40 mb-3">
+                  Información de Contacto
+                </h4>
+                <ul className="space-y-2 text-xs text-black/70">
+                  <li>
+                    <a
+                      href="mailto:blaufishec@gmail.com"
+                      className="inline-flex items-center gap-2 hover:text-black transition-colors"
+                      title="Enviar correo a Blaufish"
+                    >
+                      <Mail className="w-3.5 h-3.5 text-[#142344] shrink-0" />
+                      <span>blaufishec@gmail.com</span>
+                    </a>
+                  </li>
+                  <li className="inline-flex items-center gap-2 text-black/50">
+                    <Phone className="w-3.5 h-3.5 text-[#142344] shrink-0" />
+                    <span>Por confirmar</span>
+                  </li>
+                </ul>
+              </div>
             </div>
 
             {/* Column 2: Información & Especies */}
@@ -102,7 +118,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenPortal }) => {
               <ul className="space-y-2.5 text-sm text-black/70">
                 <li>
                   <button
-                    onClick={() => onNavigate('productos')}
+                    onClick={() => onNavigate('productos', 'picudo')}
                     className="hover:text-black transition-colors text-left cursor-pointer"
                   >
                     Picudo
@@ -110,7 +126,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenPortal }) => {
                 </li>
                 <li>
                   <button
-                    onClick={() => onNavigate('productos')}
+                    onClick={() => onNavigate('productos', 'wahoo')}
                     className="hover:text-black transition-colors text-left cursor-pointer"
                   >
                     Wahoo
@@ -178,18 +194,29 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenPortal }) => {
           </div>
 
           {/* Bottom Row */}
-          <div className="pt-8 border-t border-black/10 flex flex-row items-center justify-between text-xs text-black/50 gap-4">
-            <div>
+          <div className="pt-8 border-t border-black/10 flex flex-col lg:flex-row items-center justify-between gap-4 text-xs text-black/50 leading-normal">
+            <div className="text-center lg:text-left">
               © {new Date().getFullYear()} Blaufish Cía. Ltda. Todos los derechos reservados. Comercio Pesquero Ecuador.
             </div>
-            <div className="flex items-center gap-6">
-              <button onClick={() => onNavigate('certificaciones')} className="hover:text-black cursor-pointer">
+            <div className="flex flex-wrap items-center justify-center lg:justify-end gap-x-5 gap-y-2">
+              <button
+                onClick={() => onNavigate('certificaciones')}
+                className="hover:text-black transition-colors cursor-pointer"
+              >
                 Cumplimiento Sanitario
               </button>
-              <button onClick={() => onNavigate('cadena-frio')} className="hover:text-black cursor-pointer">
+              <span className="w-1 h-1 rounded-full bg-black/25 shrink-0" aria-hidden="true" />
+              <button
+                onClick={() => onNavigate('cadena-frio')}
+                className="hover:text-black transition-colors cursor-pointer"
+              >
                 Ultracongelación a Bordo
               </button>
-              <button onClick={() => onNavigate('trazabilidad')} className="hover:text-black cursor-pointer">
+              <span className="w-1 h-1 rounded-full bg-black/25 shrink-0" aria-hidden="true" />
+              <button
+                onClick={() => onNavigate('trazabilidad')}
+                className="hover:text-black transition-colors cursor-pointer"
+              >
                 Trazabilidad Satelital
               </button>
             </div>

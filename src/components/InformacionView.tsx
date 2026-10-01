@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ArrowLeft, Fish, Snowflake, Sparkles, ShieldCheck, CheckCircle, ArrowRight, Download, Thermometer } from 'lucide-react';
 import { NavView } from '../types/navigation';
 import { ScrollReveal } from './ScrollReveal';
 
 interface InformacionViewProps {
   currentSubView: NavView;
-  onNavigate: (view: NavView) => void;
+  onNavigate: (view: NavView, speciesId?: string) => void;
   onOpenPortal: (mode?: string, speciesId?: string) => void;
+  initialSpeciesId?: string;
+  speciesTrigger?: number;
 }
 
 interface ProductItem {
@@ -51,8 +53,25 @@ export const InformacionView: React.FC<InformacionViewProps> = ({
   currentSubView,
   onNavigate,
   onOpenPortal,
+  initialSpeciesId,
+  speciesTrigger,
 }) => {
-  const [selectedProduct, setSelectedProduct] = useState<ProductItem>(productsData[0]);
+  const [selectedProduct, setSelectedProduct] = useState<ProductItem>(() => {
+    if (initialSpeciesId) {
+      const found = productsData.find((p) => p.id === initialSpeciesId);
+      if (found) return found;
+    }
+    return productsData[0];
+  });
+
+  useEffect(() => {
+    if (initialSpeciesId) {
+      const found = productsData.find((p) => p.id === initialSpeciesId);
+      if (found) {
+        setSelectedProduct(found);
+      }
+    }
+  }, [initialSpeciesId, speciesTrigger]);
 
   // Determine active tab
   const activeTab = ['productos', 'cadena-frio', 'trazabilidad', 'certificaciones'].includes(currentSubView)
@@ -63,45 +82,47 @@ export const InformacionView: React.FC<InformacionViewProps> = ({
     <div className="pt-32 md:pt-44 pb-12 md:pb-16 px-4 md:px-6 max-w-[88rem] mx-auto">
       {/* Top Breadcrumb & Navigation */}
       <ScrollReveal delay={0} distance={20} className="mb-8">
-        <div className="flex flex-wrap items-center justify-between gap-4">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <button
             onClick={() => onNavigate('inicio')}
-            className="inline-flex items-center gap-2 text-sm font-medium text-black/60 hover:text-black transition-colors"
+            className="inline-flex items-center gap-2 text-sm font-medium text-black/60 hover:text-black transition-colors self-start sm:self-auto"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Volver al Inicio</span>
           </button>
 
           {/* Sub-tab pills */}
-          <div className="flex flex-wrap items-center gap-1.5 p-1.5 bg-black/5 rounded-full">
-            <button
-              onClick={() => onNavigate('productos')}
-              className={`px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer ${activeTab === 'productos' ? 'bg-[#142344] text-white shadow-sm' : 'text-black/60 hover:text-black'
-                }`}
-            >
-              Especies & Productos
-            </button>
-            <button
-              onClick={() => onNavigate('cadena-frio')}
-              className={`px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer ${activeTab === 'cadena-frio' ? 'bg-[#142344] text-white shadow-sm' : 'text-black/60 hover:text-black'
-                }`}
-            >
-              Cadena de Frío
-            </button>
-            <button
-              onClick={() => onNavigate('trazabilidad')}
-              className={`px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer ${activeTab === 'trazabilidad' ? 'bg-[#142344] text-white shadow-sm' : 'text-black/60 hover:text-black'
-                }`}
-            >
-              Trazabilidad
-            </button>
-            <button
-              onClick={() => onNavigate('certificaciones')}
-              className={`px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer ${activeTab === 'certificaciones' ? 'bg-[#142344] text-white shadow-sm' : 'text-black/60 hover:text-black'
-                }`}
-            >
-              Certificaciones
-            </button>
+          <div className="w-full sm:w-auto flex justify-center">
+            <div className="inline-flex flex-wrap items-center justify-center gap-1.5 p-1.5 bg-black/5 rounded-2xl sm:rounded-full max-w-full text-center">
+              <button
+                onClick={() => onNavigate('productos')}
+                className={`px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer ${activeTab === 'productos' ? 'bg-[#142344] text-white shadow-sm' : 'text-black/60 hover:text-black'
+                  }`}
+              >
+                Especies & Productos
+              </button>
+              <button
+                onClick={() => onNavigate('cadena-frio')}
+                className={`px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer ${activeTab === 'cadena-frio' ? 'bg-[#142344] text-white shadow-sm' : 'text-black/60 hover:text-black'
+                  }`}
+              >
+                Cadena de Frío
+              </button>
+              <button
+                onClick={() => onNavigate('trazabilidad')}
+                className={`px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer ${activeTab === 'trazabilidad' ? 'bg-[#142344] text-white shadow-sm' : 'text-black/60 hover:text-black'
+                  }`}
+              >
+                Trazabilidad
+              </button>
+              <button
+                onClick={() => onNavigate('certificaciones')}
+                className={`px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer ${activeTab === 'certificaciones' ? 'bg-[#142344] text-white shadow-sm' : 'text-black/60 hover:text-black'
+                  }`}
+              >
+                Certificaciones
+              </button>
+            </div>
           </div>
         </div>
       </ScrollReveal>

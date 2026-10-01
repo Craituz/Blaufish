@@ -25,7 +25,7 @@ const pillars: PillarItem[] = [
   {
     id: 'quienes-somos',
     view: 'quienes-somos',
-    tag: 'Nuestra Historia • Manta, Ecuador',
+    tag: 'Nuestra Historia',
     badge: 'Empresa Familiar',
     title: 'Quiénes Somos',
     headline: 'Tradición marina con visión de estándares mundiales',
@@ -91,7 +91,7 @@ export const UseCasesSection: React.FC<UseCasesSectionProps> = ({ onNavigate, on
   };
 
   return (
-    <section id="pilares-blaufish" className="bg-[#F5F5F5] px-4 sm:px-6 py-20 md:py-24 border-t border-black/5">
+    <section id="pilares-blaufish" className="bg-[#F5F5F5] px-4 sm:px-6 pt-20 md:pt-24 pb-12 md:pb-16 border-t border-black/5">
       <div className="max-w-[88rem] mx-auto">
         {/* Section Header */}
         <ScrollReveal className="max-w-2xl mb-12" delay={0}>

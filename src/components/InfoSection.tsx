@@ -10,7 +10,7 @@ interface InfoSectionProps {
 
 export const InfoSection: React.FC<InfoSectionProps> = ({ onDiscover, onNavigate }) => {
   return (
-    <section id="conoce-blaufish" className="bg-[#F5F5F5] px-6 py-24">
+    <section id="conoce-blaufish" className="bg-[#F5F5F5] px-6 pt-8 md:pt-12 pb-20 md:pb-24">
       <div className="max-w-[88rem] mx-auto">
         {/* Row 1: 2-column Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16 items-start">

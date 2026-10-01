@@ -15,9 +15,15 @@ export const App: React.FC = () => {
   const [isPortalOpen, setIsPortalOpen] = useState(false);
   const [selectedMode, setSelectedMode] = useState<string | undefined>(undefined);
   const [selectedSpeciesId, setSelectedSpeciesId] = useState<string | undefined>(undefined);
+  const [selectedProductSpeciesId, setSelectedProductSpeciesId] = useState<string | undefined>(undefined);
+  const [productSpeciesTrigger, setProductSpeciesTrigger] = useState<number>(0);
 
-  const handleNavigate = (view: NavView) => {
+  const handleNavigate = (view: NavView, speciesId?: string) => {
     setCurrentView(view);
+    if (speciesId) {
+      setSelectedProductSpeciesId(speciesId);
+      setProductSpeciesTrigger(Date.now());
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -96,6 +102,8 @@ export const App: React.FC = () => {
             currentSubView={currentView}
             onNavigate={handleNavigate}
             onOpenPortal={(mode, speciesId) => handleOpenPortal(mode, speciesId)}
+            initialSpeciesId={selectedProductSpeciesId}
+            speciesTrigger={productSpeciesTrigger}
           />
         </main>
       )}

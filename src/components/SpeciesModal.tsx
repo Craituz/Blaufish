@@ -530,7 +530,7 @@ export const SpeciesModal: React.FC<SpeciesModalProps> = ({
                     ) : (
                       <>
                         <Send className="w-4 h-4" />
-                        <span>Enviar Solicitud a Mesa de Comercio Exterior</span>
+                        <span>Enviar Solicitud a Blaufish</span>
                       </>
                     )}
                   </button>

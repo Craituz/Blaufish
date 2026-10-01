@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ArrowLeft, Fish, Snowflake, Sparkles, ShieldCheck, CheckCircle, ArrowRight, Download, Thermometer } from 'lucide-react';
 import { NavView } from '../types/navigation';
 import { ScrollReveal } from './ScrollReveal';
@@ -56,6 +56,8 @@ export const InformacionView: React.FC<InformacionViewProps> = ({
   initialSpeciesId,
   speciesTrigger,
 }) => {
+  const catalogHeaderRef = useRef<HTMLDivElement>(null);
+
   const [selectedProduct, setSelectedProduct] = useState<ProductItem>(() => {
     if (initialSpeciesId) {
       const found = productsData.find((p) => p.id === initialSpeciesId);
@@ -70,6 +72,20 @@ export const InformacionView: React.FC<InformacionViewProps> = ({
       if (found) {
         setSelectedProduct(found);
       }
+
+      const timer = setTimeout(() => {
+        if (catalogHeaderRef.current) {
+          const rect = catalogHeaderRef.current.getBoundingClientRect();
+          const topMargin = window.innerWidth < 768 ? 75 : 100;
+          const targetY = window.scrollY + rect.top - topMargin;
+          window.scrollTo({
+            top: Math.max(0, targetY),
+            behavior: 'smooth',
+          });
+        }
+      }, 100);
+
+      return () => clearTimeout(timer);
     }
   }, [initialSpeciesId, speciesTrigger]);
 
@@ -133,7 +149,10 @@ export const InformacionView: React.FC<InformacionViewProps> = ({
       {activeTab === 'productos' && (
         <section className="animate-in fade-in duration-300">
           <ScrollReveal className="max-w-2xl mb-10" delay={0}>
-            <div className="inline-flex items-center gap-2 text-xs uppercase tracking-widest font-semibold text-black/50 mb-2">
+            <div
+              ref={catalogHeaderRef}
+              className="inline-flex items-center gap-2 text-xs uppercase tracking-widest font-semibold text-black/50 mb-2"
+            >
               <Fish className="w-3.5 h-3.5" />
               <span>Catálogo Técnico de Exportación</span>
             </div>

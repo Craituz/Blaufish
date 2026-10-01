@@ -23,8 +23,9 @@ export const App: React.FC = () => {
     if (speciesId) {
       setSelectedProductSpeciesId(speciesId);
       setProductSpeciesTrigger(Date.now());
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleOpenPortal = (mode?: string, speciesId?: string) => {

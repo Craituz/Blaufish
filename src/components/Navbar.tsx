@@ -11,7 +11,16 @@ interface NavbarProps {
 export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate, onOpenPortal }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<'nosotros' | 'informacion' | null>(null);
+  const [isScrolled, setIsScrolled] = useState(false);
   const dropdownTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 15);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const handleMouseEnter = (menu: 'nosotros' | 'informacion') => {
     if (dropdownTimeoutRef.current) clearTimeout(dropdownTimeoutRef.current);
@@ -76,7 +85,13 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate, onOpenP
   const isInfoActive = ['productos', 'cadena-frio', 'trazabilidad', 'certificaciones'].includes(currentView);
 
   return (
-    <nav className="absolute top-0 left-0 right-0 z-40 px-4 md:px-6 py-3 md:py-5">
+    <nav
+      className={`fixed md:absolute top-0 left-0 right-0 z-40 px-4 md:px-6 py-2.5 md:py-5 transition-all duration-200 ${
+        isScrolled || mobileMenuOpen
+          ? 'bg-[#F5F5F5]/95 backdrop-blur-md shadow-sm border-b border-black/5 md:bg-transparent md:border-transparent md:shadow-none'
+          : 'bg-transparent'
+      }`}
+    >
       <div className="max-w-[88rem] mx-auto relative flex items-center justify-between min-h-[50px] md:min-h-[75px]">
         {/* Brand: Logo oficial de Blaufish centrado en móvil y a la izquierda en desktop */}
         <button
@@ -87,8 +102,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate, onOpenP
           <img
             src="/assets/logo.png"
             alt="Blaufish"
-            className="h-[65px] md:h-[70px] w-auto object-contain"
-
+            className="h-[56px] md:h-[70px] w-auto object-contain transition-transform duration-200 group-hover:scale-105"
           />
         </button>
 

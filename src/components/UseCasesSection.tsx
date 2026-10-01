@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { ArrowRight, Anchor, Fish, HeartHandshake, Sparkles } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { ArrowRight, Anchor, Fish, HeartHandshake, Sparkles, PhoneCall, ChevronDown } from 'lucide-react';
 import { NavView } from '../types/navigation';
+import { ScrollReveal } from './ScrollReveal';
 
 interface UseCasesSectionProps {
   onNavigate: (view: NavView) => void;
@@ -18,7 +19,6 @@ interface PillarItem {
   icon: React.ComponentType<{ className?: string }>;
   buttonLabel: string;
   bgImage: string;
-  highlights: { label: string; val: string }[];
 }
 
 const pillars: PillarItem[] = [
@@ -34,11 +34,6 @@ const pillars: PillarItem[] = [
     icon: Anchor,
     buttonLabel: 'Conocer Quiénes Somos',
     bgImage: '/assets/master_inspector.jpg',
-    highlights: [
-      { label: 'Sede Principal', val: 'Puerto de Manta, Manabí' },
-      { label: 'Trayectoria', val: '+15 Años de Experiencia' },
-      { label: 'Control', val: 'Inspección Pieza por Pieza' },
-    ],
   },
   {
     id: 'productos',
@@ -52,11 +47,6 @@ const pillars: PillarItem[] = [
     icon: Fish,
     buttonLabel: 'Ver Catálogo y Fichas Técnicas',
     bgImage: '/assets/picudo_hero.jpg',
-    highlights: [
-      { label: 'Especies Clave', val: 'Picudo & Wahoo' },
-      { label: 'Conservación', val: 'Ultracongelación a Bordo' },
-      { label: 'Mercado', val: 'Nacional e Internacional' },
-    ],
   },
   {
     id: 'responsabilidad-social',
@@ -69,31 +59,47 @@ const pillars: PillarItem[] = [
       'Trabajamos mano a mano con las caletas pesqueras de la provincia de Manabí. Fomentamos artes de pesca selectivas, respeto a las normativas de la CIAT y remuneración justa.',
     icon: HeartHandshake,
     buttonLabel: 'Explorar Responsabilidad Social',
-    bgImage: '/assets/korea_logistics.jpg',
-    highlights: [
-      { label: 'Comunidades', val: 'San Mateo, Jaramijó y Marianita' },
-      { label: 'Buenas Prácticas', val: 'Normativas CIAT & FAO 87' },
-      { label: 'Compromiso', val: 'Cero Pesca Ilegal (INDNR)' },
-    ],
+    bgImage: '/assets/korea_logistics.jpg?v=2',
   },
 ];
 
 export const UseCasesSection: React.FC<UseCasesSectionProps> = ({ onNavigate, onOpenPortal }) => {
-  const [activePillarIndex, setActivePillarIndex] = useState(0);
-  const activePillar = pillars[activePillarIndex];
+  const [activePillarIndex, setActivePillarIndex] = useState<number>(0);
+  const pillarRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  const handlePillarClick = (idx: number) => {
+    setActivePillarIndex(idx);
+
+    setTimeout(() => {
+      const el = pillarRefs.current[idx];
+      if (!el) return;
+
+      const rect = el.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+
+      // Centrado vertical simétrico en pantalla (fórmula unificada que centra exactamente como Especies)
+      const idealCenter = (viewportHeight - rect.height) / 2;
+      const topMargin = Math.max(75, idealCenter);
+
+      const targetScrollY = window.scrollY + rect.top - topMargin;
+
+      window.scrollTo({
+        top: Math.max(0, targetScrollY),
+        behavior: 'smooth',
+      });
+    }, 120);
+  };
 
   return (
-    <section id="pilares-blaufish" className="bg-[#F5F5F5] px-6 py-20 md:py-24 border-t border-black/5">
-      <div className="max-w-[88rem] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-        {/* Left Column (5 cols) */}
-        <div className="lg:col-span-5 lg:pr-6">
-          {/* Eyebrow */}
+    <section id="pilares-blaufish" className="bg-[#F5F5F5] px-4 sm:px-6 py-20 md:py-24 border-t border-black/5">
+      <div className="max-w-[88rem] mx-auto">
+        {/* Section Header */}
+        <ScrollReveal className="max-w-2xl mb-12" delay={0}>
           <div className="inline-flex items-center gap-2 text-xs uppercase tracking-widest font-semibold text-black/50 mb-3">
             <Sparkles className="w-3.5 h-3.5" />
             <span>Pilares Fundamentales • Blaufish</span>
           </div>
 
-          {/* Heading */}
           <h2
             className="text-4xl md:text-5xl font-medium tracking-tight text-black leading-tight mb-4"
             style={{ letterSpacing: '-0.03em' }}
@@ -101,149 +107,171 @@ export const UseCasesSection: React.FC<UseCasesSectionProps> = ({ onNavigate, on
             Conoce lo esencial de nuestra operación.
           </h2>
 
-          {/* Paragraph */}
-          <p className="text-black/60 text-base leading-relaxed mb-8 font-light">
-            Explora de manera directa las áreas más importantes de Blaufish: nuestra identidad corporativa, las especies pelágicas que ofrecemos y el compromiso social en nuestro origen.
+          <p className="text-black/60 text-base leading-relaxed font-light">
+            Selecciona cualquiera de las opciones para descubrir los pilares que definen a Blaufish: nuestra trayectoria, las especies del Pacífico y nuestro compromiso en origen.
           </p>
+        </ScrollReveal>
 
-          {/* Interactive Pillar Selector Cards */}
-          <div className="flex flex-col gap-3 mb-8">
-            {pillars.map((pillar, idx) => {
-              const Icon = pillar.icon;
-              const isSelected = idx === activePillarIndex;
+        {/* 3 Interactive Accordion Options with Photo expanding right below the touched option */}
+        <div className="flex flex-col gap-5">
+          {pillars.map((pillar, idx) => {
+            const Icon = pillar.icon;
+            const isSelected = idx === activePillarIndex;
 
-              return (
+            return (
+              <ScrollReveal key={pillar.id} delay={idx * 100}>
                 <div
-                  key={pillar.id}
-                  onClick={() => setActivePillarIndex(idx)}
-                  className={`p-4 rounded-2xl border transition-all cursor-pointer flex items-center justify-between group ${
+                  ref={(el) => (pillarRefs.current[idx] = el)}
+                  className={`rounded-3xl border transition-all duration-200 overflow-hidden ${
                     isSelected
-                      ? 'bg-[#142344] text-white border-[#142344] shadow-md'
-                      : 'bg-white hover:bg-neutral-50 text-black border-black/5 hover:border-black/15 shadow-sm'
+                      ? 'bg-white border-[#142344]/30 shadow-xl ring-1 ring-[#142344]/10'
+                      : 'bg-white hover:bg-neutral-50/80 border-black/5 hover:border-black/15 shadow-sm'
                   }`}
                 >
-                  <div className="flex items-center gap-3.5">
+                {/* Clickable Option Header Bar */}
+                <button
+                  type="button"
+                  onClick={() => handlePillarClick(idx)}
+                  className={`w-full text-left p-5 md:p-6 flex items-center justify-between cursor-pointer transition-colors ${
+                    isSelected ? 'bg-[#142344] text-white' : 'text-black'
+                  }`}
+                >
+                  <div className="flex items-center gap-4">
                     <div
-                      className={`p-2.5 rounded-xl transition-colors ${
-                        isSelected ? 'bg-white/10 text-white' : 'bg-black/5 text-black'
+                      className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-colors shrink-0 ${
+                        isSelected ? 'bg-white/15 text-white' : 'bg-black/5 text-black'
                       }`}
                     >
-                      <Icon className="w-5 h-5" />
+                      <Icon className="w-6 h-6" />
                     </div>
                     <div>
                       <div
                         className={`text-[11px] uppercase tracking-wider font-semibold mb-0.5 ${
-                          isSelected ? 'text-white/60' : 'text-black/50'
+                          isSelected ? 'text-white/70' : 'text-black/50'
                         }`}
                       >
                         {pillar.badge}
                       </div>
-                      <div className="text-base font-medium leading-snug">{pillar.title}</div>
+                      <div className="text-xl md:text-2xl font-medium leading-snug">
+                        {pillar.title}
+                      </div>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-2">
-                    <button
-                      type="button"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onNavigate(pillar.view);
-                      }}
-                      className={`text-xs font-semibold px-3 py-1.5 rounded-full transition-all inline-flex items-center gap-1.5 cursor-pointer ${
-                        isSelected
-                          ? 'bg-white text-[#142344] hover:bg-white/90 shadow-sm'
-                          : 'bg-black/5 text-black/70 hover:bg-black hover:text-white'
+                  <div className="flex items-center gap-3">
+                    <span
+                      className={`hidden sm:inline text-xs font-medium ${
+                        isSelected ? 'text-white/80' : 'text-black/40'
                       }`}
                     >
-                      <span>Ir a sección</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </button>
+                      {isSelected ? 'Mostrando información' : 'Tocar para ver'}
+                    </span>
+                    <div
+                      className={`w-9 h-9 rounded-full flex items-center justify-center transition-transform duration-300 ${
+                        isSelected
+                          ? 'bg-white text-[#142344] rotate-180'
+                          : 'bg-black/5 text-black/50'
+                      }`}
+                    >
+                      <ChevronDown className="w-4 h-4" />
+                    </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
+                </button>
 
-          {/* Direct portal prompt */}
-          {onOpenPortal && (
-            <div className="bg-white p-5 rounded-2xl border border-black/5 shadow-sm flex items-center justify-between gap-4">
-              <div>
-                <div className="text-xs font-semibold uppercase tracking-wider text-black/50 mb-0.5">
-                  Atención Inmediata
+                {/* Expanded content appearing right below the touched option */}
+                {isSelected && (
+                  <div className="p-6 md:p-8 border-t border-black/5 bg-[#FAFAFA] animate-in fade-in slide-in-from-top-2 duration-300">
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                      {/* Photo representing the option */}
+                      <div className="lg:col-span-6 rounded-2xl overflow-hidden aspect-[16/10] md:aspect-[4/3] bg-neutral-900 shadow-md relative group">
+                        <img
+                          src={pillar.bgImage}
+                          alt={pillar.title}
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+                        <div className="absolute bottom-4 left-4 right-4 text-white">
+                          <span className="bg-black/60 backdrop-blur-md px-3.5 py-1.5 rounded-full text-xs font-medium border border-white/20">
+                            {pillar.tag}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Content side */}
+                      <div className="lg:col-span-6 flex flex-col justify-between">
+                        <div>
+                          <div className="inline-block px-3 py-1 rounded-full bg-[#142344]/10 text-[#142344] text-xs font-semibold uppercase tracking-wider mb-3">
+                            {pillar.badge}
+                          </div>
+
+                          <h3
+                            className="text-2xl md:text-3xl font-medium tracking-tight text-black leading-snug mb-3"
+                            style={{ letterSpacing: '-0.02em' }}
+                          >
+                            {pillar.headline}
+                          </h3>
+
+                          <p className="text-black/70 text-sm md:text-base leading-relaxed mb-6 font-light">
+                            {pillar.description}
+                          </p>
+                        </div>
+
+                        <div>
+                          <button
+                            type="button"
+                            onClick={() => onNavigate(pillar.view)}
+                            className="group inline-flex items-center gap-3 bg-[#142344] text-white text-sm md:text-base font-medium pl-6 pr-2 py-2 rounded-full hover:bg-[#1d3260] transition-all cursor-pointer shadow-md hover:shadow-lg"
+                          >
+                            <span>{pillar.buttonLabel}</span>
+                            <div className="bg-white rounded-full p-2 group-hover:scale-105 transition-transform">
+                              <ArrowRight className="w-4 h-4 text-[#142344] group-hover:translate-x-0.5 transition-transform" />
+                            </div>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
                 </div>
-                <div className="text-sm font-medium text-black">
-                  ¿Tienes una consulta o cotización directa?
+              </ScrollReveal>
+            );
+          })}
+        </div>
+
+        {/* Atención Inmediata: Siempre abajo antes del pie de página */}
+        {onOpenPortal && (
+          <ScrollReveal delay={120} className="mt-14 md:mt-16">
+            <div className="bg-[#142344] text-white rounded-3xl p-8 md:p-10 shadow-xl border border-[#142344] flex flex-col md:flex-row items-center justify-between gap-6">
+              <div className="flex items-start sm:items-center gap-4">
+                <div className="w-12 h-12 rounded-2xl bg-white/10 text-white flex items-center justify-center shrink-0">
+                  <PhoneCall className="w-6 h-6" />
+                </div>
+                <div>
+                  <div className="inline-flex items-center gap-1.5 text-xs uppercase tracking-widest font-semibold text-white/60 mb-1">
+                    <span>Atención Inmediata</span>
+                  </div>
+                  <h3 className="text-xl md:text-2xl font-medium tracking-tight leading-snug">
+                    ¿Tienes una consulta directa o requieres cotización?
+                  </h3>
+                  <p className="text-white/70 text-xs md:text-sm mt-1 max-w-xl font-light">
+                    Nuestro departamento comercial en Manta atiende solicitudes de importadores, distribuidores y compradores de pescado pelágico.
+                  </p>
                 </div>
               </div>
+
               <button
                 type="button"
                 onClick={() => onOpenPortal()}
-                className="bg-[#142344] text-white text-xs font-medium px-4 py-2 rounded-full hover:bg-[#1d3260] transition-colors shrink-0 cursor-pointer shadow-sm"
+                className="group inline-flex items-center gap-3 bg-white text-[#142344] text-sm md:text-base font-medium pl-6 pr-2 py-2.5 rounded-full hover:bg-white/95 transition-all cursor-pointer shadow-md hover:shadow-lg shrink-0 w-full sm:w-auto justify-center"
               >
-                Abrir Portal
-              </button>
-            </div>
-          )}
-        </div>
-
-        {/* Right Column: Large cinematic card with photo & navigation (7 cols) */}
-        <div className="lg:col-span-7 relative rounded-3xl overflow-hidden min-h-[520px] md:min-h-[580px] shadow-2xl bg-neutral-900 group flex flex-col justify-end">
-          {/* Background image */}
-          <div
-            className="absolute inset-0 bg-cover bg-center transition-all duration-700 group-hover:scale-105"
-            style={{ backgroundImage: `url(${activePillar.bgImage})` }}
-          />
-
-          {/* Contrast gradient scrim */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-black/20 pointer-events-none" />
-
-          {/* Content overlay */}
-          <div className="relative z-10 p-8 md:p-12 text-white flex flex-col justify-end">
-            <div className="inline-block px-3.5 py-1 rounded-full bg-white/20 backdrop-blur-md text-white text-xs font-semibold uppercase tracking-wider mb-4 w-fit border border-white/20">
-              {activePillar.tag}
-            </div>
-
-            <h3
-              className="text-3xl md:text-5xl font-medium leading-tight mb-4 text-white"
-              style={{ letterSpacing: '-0.03em' }}
-            >
-              {activePillar.headline}
-            </h3>
-
-            <p className="text-white/80 text-sm md:text-base max-w-xl mb-6 leading-relaxed font-light">
-              {activePillar.description}
-            </p>
-
-            {/* Highlights pills */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 mb-8 max-w-xl">
-              {activePillar.highlights.map((h, i) => (
-                <div
-                  key={i}
-                  className="bg-white/10 backdrop-blur-md border border-white/15 rounded-xl p-3"
-                >
-                  <div className="text-[10px] uppercase tracking-wider text-white/50 mb-1">
-                    {h.label}
-                  </div>
-                  <div className="text-white text-xs font-medium leading-tight">{h.val}</div>
-                </div>
-              ))}
-            </div>
-
-            {/* Main Action Button to navigate directly */}
-            <div>
-              <button
-                type="button"
-                onClick={() => onNavigate(activePillar.view)}
-                className="group inline-flex items-center gap-3 bg-white text-[#142344] text-sm md:text-base font-medium pl-6 pr-2 py-2 rounded-full hover:bg-white/95 transition-all cursor-pointer shadow-lg hover:shadow-xl"
-              >
-                <span>{activePillar.buttonLabel}</span>
+                <span>Abrir Portal de Clientes</span>
                 <div className="bg-[#142344] rounded-full p-2 group-hover:scale-105 transition-transform">
                   <ArrowRight className="w-4 h-4 text-white group-hover:translate-x-0.5 transition-transform" />
                 </div>
               </button>
             </div>
-          </div>
-        </div>
+          </ScrollReveal>
+        )}
       </div>
     </section>
   );

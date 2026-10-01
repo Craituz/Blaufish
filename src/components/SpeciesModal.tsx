@@ -3,7 +3,6 @@ import {
   X,
   CheckCircle,
   AlertCircle,
-  ThermometerSnowflake,
   Send,
   Loader2,
   Mail,
@@ -15,6 +14,7 @@ interface SpeciesModalProps {
   isOpen: boolean;
   onClose: () => void;
   initialMode?: string;
+  initialSpeciesId?: string;
 }
 
 interface SpecieItem {
@@ -23,8 +23,6 @@ interface SpecieItem {
   photo: string;
   grade: string;
   fatContent: string;
-  cuts?: string;
-  temp?: string;
   description: string;
 }
 
@@ -36,7 +34,7 @@ const speciesList: SpecieItem[] = [
     grade: 'Grado Sashimi AAA Extra White',
     fatContent: 'Alto Contenido Graso (>8%)',
     description:
-      'El Picudo es un pescado de carne firme, textura consistente y sabor delicado, apreciado por su versatilidad en la gastronomía. Su carne de excelente calidad lo convierte en una opción ideal para filetes, porciones y preparaciones a la parrilla, ofreciendo un producto atractivo tanto para el mercado nacional como internacional.',
+      'El Picudo es un pescado de carne firme, textura consistente y sabor delicado, apreciado por su versatilidad en la gastronomía. Su carne de excelente calidad lo convierte en una opción ideal para filetes, porciones y preparaciones a la parrilla, ofreciendo un producto atractivo para el mercado nacional.',
   },
   {
     id: 'wahoo',
@@ -58,7 +56,12 @@ const FIELD_LIMITS = {
   description: 500,
 } as const;
 
-export const SpeciesModal: React.FC<SpeciesModalProps> = ({ isOpen, onClose, initialMode }) => {
+export const SpeciesModal: React.FC<SpeciesModalProps> = ({
+  isOpen,
+  onClose,
+  initialMode,
+  initialSpeciesId,
+}) => {
   const [selectedSpecies, setSelectedSpecies] = useState(speciesList[0]);
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -87,6 +90,24 @@ export const SpeciesModal: React.FC<SpeciesModalProps> = ({ isOpen, onClose, ini
   // Reset or initialize when opened
   useEffect(() => {
     if (isOpen) {
+      const targetKey = initialSpeciesId || (
+        initialMode && speciesList.some(s => initialMode.toLowerCase().includes(s.id.toLowerCase()) || initialMode.toLowerCase().includes(s.name.toLowerCase()))
+          ? speciesList.find(s => initialMode.toLowerCase().includes(s.id.toLowerCase()) || initialMode.toLowerCase().includes(s.name.toLowerCase()))?.id
+          : undefined
+      );
+
+      if (targetKey) {
+        const found = speciesList.find(
+          (s) => s.id.toLowerCase() === targetKey.toLowerCase() ||
+                 s.name.toLowerCase().includes(targetKey.toLowerCase())
+        );
+        if (found) {
+          setSelectedSpecies(found);
+        }
+      } else if (!initialSpeciesId) {
+        setSelectedSpecies(speciesList[0]);
+      }
+
       if (initialMode && !formData.description) {
         setFormData((prev) => ({
           ...prev,
@@ -94,7 +115,7 @@ export const SpeciesModal: React.FC<SpeciesModalProps> = ({ isOpen, onClose, ini
         }));
       }
     }
-  }, [isOpen, initialMode]);
+  }, [isOpen, initialMode, initialSpeciesId]);
 
   if (!isOpen) return null;
 
@@ -250,7 +271,7 @@ export const SpeciesModal: React.FC<SpeciesModalProps> = ({ isOpen, onClose, ini
         <div className="sticky top-0 bg-[#F5F5F5]/90 backdrop-blur px-6 md:px-8 py-5 border-b border-black/5 flex items-center justify-between z-10">
           <div>
             <span className="text-xs uppercase tracking-widest font-semibold text-black/50">
-              Mesa de Comercio Exterior • Manta
+              Mesa de Comercio Exterior
             </span>
             <h2 className="text-xl md:text-2xl font-medium tracking-tight text-black">
               Portal de Clientes & Solicitud de Cotización
@@ -331,7 +352,7 @@ export const SpeciesModal: React.FC<SpeciesModalProps> = ({ isOpen, onClose, ini
               {/* Left Column: Species Specs */}
               <div>
                 <h4 className="text-xs font-semibold uppercase tracking-wider text-black/50 mb-3">
-                  1. Selección de Especie & Calidad
+                  1. Selección de Especie
                 </h4>
                 <div className="flex flex-col gap-2.5 mb-6">
                   {speciesList.map((item) => (
@@ -365,22 +386,6 @@ export const SpeciesModal: React.FC<SpeciesModalProps> = ({ isOpen, onClose, ini
                   <p className="text-black/80 text-xs leading-relaxed font-light">
                     {selectedSpecies.description}
                   </p>
-                  {selectedSpecies.cuts && selectedSpecies.temp && (
-                    <div className="grid grid-cols-2 gap-2 text-xs mt-4">
-                      <div className="bg-[#F5F5F5] p-2.5 rounded-xl">
-                        <span className="text-black/50 block text-[11px]">Formatos de Corte:</span>
-                        <strong className="text-black leading-tight block mt-0.5">
-                          {selectedSpecies.cuts}
-                        </strong>
-                      </div>
-                      <div className="bg-[#F5F5F5] p-2.5 rounded-xl">
-                        <span className="text-black/50 block text-[11px]">Régimen Térmico:</span>
-                        <strong className="text-black leading-tight block mt-0.5">
-                          {selectedSpecies.temp}
-                        </strong>
-                      </div>
-                    </div>
-                  )}
                 </div>
               </div>
 
@@ -392,12 +397,9 @@ export const SpeciesModal: React.FC<SpeciesModalProps> = ({ isOpen, onClose, ini
                 <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-3.5">
                   {/* Nombre */}
                   <div>
-                    <div className="flex items-center justify-between mb-1">
-                      <label className="block text-xs font-semibold text-black/70">
-                        Nombre completo / Empresa <span className="text-rose-500">*</span>
-                      </label>
-                      {renderCharCounter(formData.name.length, FIELD_LIMITS.name)}
-                    </div>
+                    <label className="block text-xs font-semibold text-black/70 mb-1">
+                      Nombre completo / Empresa <span className="text-rose-500">*</span>
+                    </label>
                     <div className="relative">
                       <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-black/40">
                         <User className="w-4 h-4" />
@@ -427,12 +429,9 @@ export const SpeciesModal: React.FC<SpeciesModalProps> = ({ isOpen, onClose, ini
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {/* Contacto */}
                     <div>
-                      <div className="flex items-center justify-between mb-1">
-                        <label className="block text-xs font-semibold text-black/70">
-                          Contacto (Tel / WhatsApp) <span className="text-rose-500">*</span>
-                        </label>
-                        {renderCharCounter(formData.contact.length, FIELD_LIMITS.contact)}
-                      </div>
+                      <label className="block text-xs font-semibold text-black/70 mb-1">
+                        Contacto (Tel / WhatsApp) <span className="text-rose-500">*</span>
+                      </label>
                       <div className="relative">
                         <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-black/40">
                           <Phone className="w-4 h-4" />
@@ -460,12 +459,9 @@ export const SpeciesModal: React.FC<SpeciesModalProps> = ({ isOpen, onClose, ini
 
                     {/* Correo */}
                     <div>
-                      <div className="flex items-center justify-between mb-1">
-                        <label className="block text-xs font-semibold text-black/70">
-                          Correo Electrónico <span className="text-rose-500">*</span>
-                        </label>
-                        {renderCharCounter(formData.email.length, FIELD_LIMITS.email)}
-                      </div>
+                      <label className="block text-xs font-semibold text-black/70 mb-1">
+                        Correo Electrónico <span className="text-rose-500">*</span>
+                      </label>
                       <div className="relative">
                         <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-black/40">
                           <Mail className="w-4 h-4" />
@@ -518,14 +514,6 @@ export const SpeciesModal: React.FC<SpeciesModalProps> = ({ isOpen, onClose, ini
                         <span>{errors.description}</span>
                       </p>
                     )}
-                  </div>
-
-                  {/* Garantía & Certificación Banner */}
-                  <div className="bg-emerald-50 border border-emerald-200/60 p-3 rounded-xl text-emerald-900 text-xs flex items-start gap-2.5 mt-0.5">
-                    <ThermometerSnowflake className="w-4 h-4 text-emerald-700 shrink-0 mt-0.5" />
-                    <span>
-                      Notificación directa a la mesa comercial. Incluye asesoría técnica de cadena de frío y certificado oficial de origen.
-                    </span>
                   </div>
 
                   {/* Submit Button */}

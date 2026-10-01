@@ -14,20 +14,23 @@ export const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<NavView>('inicio');
   const [isPortalOpen, setIsPortalOpen] = useState(false);
   const [selectedMode, setSelectedMode] = useState<string | undefined>(undefined);
+  const [selectedSpeciesId, setSelectedSpeciesId] = useState<string | undefined>(undefined);
 
   const handleNavigate = (view: NavView) => {
     setCurrentView(view);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleOpenPortal = (mode?: string) => {
+  const handleOpenPortal = (mode?: string, speciesId?: string) => {
     setSelectedMode(mode);
+    setSelectedSpeciesId(speciesId);
     setIsPortalOpen(true);
   };
 
   const handleClosePortal = () => {
     setIsPortalOpen(false);
     setSelectedMode(undefined);
+    setSelectedSpeciesId(undefined);
   };
 
   const isNosotrosGroup = ['quienes-somos', 'responsabilidad-social'].includes(currentView);
@@ -92,7 +95,7 @@ export const App: React.FC = () => {
           <InformacionView
             currentSubView={currentView}
             onNavigate={handleNavigate}
-            onOpenPortal={(mode) => handleOpenPortal(mode)}
+            onOpenPortal={(mode, speciesId) => handleOpenPortal(mode, speciesId)}
           />
         </main>
       )}
@@ -109,6 +112,7 @@ export const App: React.FC = () => {
         isOpen={isPortalOpen}
         onClose={handleClosePortal}
         initialMode={selectedMode}
+        initialSpeciesId={selectedSpeciesId}
       />
     </div>
   );

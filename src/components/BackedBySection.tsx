@@ -1,4 +1,5 @@
 import React from 'react';
+import { ScrollReveal } from './ScrollReveal';
 
 interface BackerItem {
   name: string;
@@ -84,7 +85,7 @@ const authorities: BackerItem[] = [
 export const BackedBySection: React.FC = () => {
   return (
     <section id="certificaciones" className="bg-[#F5F5F5] px-6 py-12 border-y border-black/5">
-      <div className="max-w-[88rem] mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 items-center">
+      <ScrollReveal className="max-w-[88rem] mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 items-center" delay={0}>
         {/* Left col (1/4) */}
         <div className="text-black/70 text-base leading-relaxed">
           Acreditado por las máximas autoridades sanitarias
@@ -126,7 +127,7 @@ export const BackedBySection: React.FC = () => {
             ))}
           </div>
         </div>
-      </div>
+      </ScrollReveal>
     </section>
   );
 };

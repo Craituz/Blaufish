@@ -3,6 +3,8 @@ export type NavView =
   | 'quienes-somos'
   | 'responsabilidad-social'
   | 'productos'
+  | 'calidad-producto'
+  | 'distribucion'
   | 'cadena-frio'
   | 'trazabilidad'
   | 'certificaciones'

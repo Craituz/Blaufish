@@ -134,18 +134,18 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenPortal }) => {
                 </li>
                 <li>
                   <button
-                    onClick={() => onNavigate('cadena-frio')}
+                    onClick={() => onNavigate('calidad-producto')}
                     className="hover:text-black transition-colors text-left cursor-pointer"
                   >
-                    Cadena de Frío -60°C
+                    Calidad de Producto
                   </button>
                 </li>
                 <li>
                   <button
-                    onClick={() => onNavigate('trazabilidad')}
+                    onClick={() => onNavigate('distribucion')}
                     className="hover:text-black transition-colors text-left cursor-pointer"
                   >
-                    Trazabilidad Satelital
+                    Distribución Local & Nacional
                   </button>
                 </li>
                 <li>
@@ -207,17 +207,17 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenPortal }) => {
               </button>
               <span className="w-1 h-1 rounded-full bg-black/25 shrink-0" aria-hidden="true" />
               <button
-                onClick={() => onNavigate('cadena-frio')}
+                onClick={() => onNavigate('calidad-producto')}
                 className="hover:text-black transition-colors cursor-pointer"
               >
-                Ultracongelación a Bordo
+                Calidad de Producto
               </button>
               <span className="w-1 h-1 rounded-full bg-black/25 shrink-0" aria-hidden="true" />
               <button
-                onClick={() => onNavigate('trazabilidad')}
+                onClick={() => onNavigate('distribucion')}
                 className="hover:text-black transition-colors cursor-pointer"
               >
-                Trazabilidad Satelital
+                Distribución Local & Nacional
               </button>
             </div>
           </div>

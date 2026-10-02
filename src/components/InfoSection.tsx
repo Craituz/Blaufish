@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, ThermometerSnowflake, ShieldCheck } from 'lucide-react';
+import { ArrowRight, Award, Truck, ShieldCheck } from 'lucide-react';
 import { NavView } from '../types/navigation';
 import { ScrollReveal } from './ScrollReveal';
 
@@ -38,7 +38,7 @@ export const InfoSection: React.FC<InfoSectionProps> = ({ onDiscover, onNavigate
           {/* Right Column */}
           <ScrollReveal delay={120}>
             <p className="text-black/70 text-2xl md:text-3xl leading-relaxed">
-              Blaufish es una empresa comercializadora ecuatoriana de referencia en pesca pelágica, suministrando capturas de grado sushi y sashimi con ultracongelación a bordo directamente a los principales centros mundiales de distribución.
+              Blaufish es una empresa comercializadora ecuatoriana de referencia en pesca blanca, suministrando capturas de excelente grado con ultracongelación a bordo directamente a los principales centros de distribución.
             </p>
           </ScrollReveal>
         </div>
@@ -51,7 +51,7 @@ export const InfoSection: React.FC<InfoSectionProps> = ({ onDiscover, onNavigate
               onClick={() => onNavigate('productos')}
               className="w-full h-full rounded-2xl relative overflow-hidden group p-7 min-h-80 flex flex-col justify-between shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer"
               style={{
-                backgroundImage: 'url(/assets/picudo_hero.jpg)',
+                backgroundImage: 'url(/assets/picudo_hero.jpg?v=3)',
                 backgroundSize: 'cover',
                 backgroundPosition: 'center 35%',
               }}
@@ -75,50 +75,50 @@ export const InfoSection: React.FC<InfoSectionProps> = ({ onDiscover, onNavigate
               {/* Body (bottom) */}
               <div className="relative z-10">
                 <p className="text-black/80 text-base max-w-sm font-normal leading-relaxed">
-                  Acceso directo a Pez Espada (Picudo) y Wahoo capturados por flotas artesanales selectivas bajo rigurosas buenas prácticas pesqueras.
+                  Acceso directo al Picudo y Wahoo capturados por flotas selectivas bajo rigurosas buenas prácticas pesqueras.
                 </p>
               </div>
             </div>
           </ScrollReveal>
 
-          {/* Card 2: Solid #2B2644 */}
+          {/* Card 2: Calidad de Producto */}
           <ScrollReveal className="h-full" delay={150}>
             <div
-              onClick={() => onNavigate('cadena-frio')}
+              onClick={() => onNavigate('calidad-producto')}
               className="w-full h-full rounded-2xl p-7 min-h-80 flex flex-col justify-between shadow-sm transition-transform duration-300 hover:-translate-y-0.5 cursor-pointer"
               style={{ backgroundColor: '#2B2644' }}
             >
               <div>
                 <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white/80 mb-6">
-                  <ThermometerSnowflake className="w-5 h-5" />
+                  <Award className="w-5 h-5" />
                 </div>
                 <h3 className="text-white text-2xl font-medium leading-snug whitespace-pre-line mb-3">
-                  {'Ultracongelación\na Bordo.'}
+                  {'Calidad Superior\nde Producto.'}
                 </h3>
               </div>
               <p className="text-white/60 text-base leading-relaxed">
-                El congelamiento inmediato en alta mar fija la estructura celular, preservando el color natural y la textura original.
+                Selección rigurosa de piezas de primera categoría con textura firme, frescura intacta y óptimo rendimiento culinario.
               </p>
             </div>
           </ScrollReveal>
 
-          {/* Card 3: Solid #2B2644 */}
+          {/* Card 3: Distribución Local y Nacional */}
           <ScrollReveal className="h-full" delay={300}>
             <div
-              onClick={() => onNavigate('trazabilidad')}
+              onClick={() => onNavigate('distribucion')}
               className="w-full h-full rounded-2xl p-7 min-h-80 flex flex-col justify-between shadow-sm transition-transform duration-300 hover:-translate-y-0.5 cursor-pointer"
               style={{ backgroundColor: '#2B2644' }}
             >
               <div>
                 <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white/80 mb-6">
-                  <ShieldCheck className="w-5 h-5" />
+                  <Truck className="w-5 h-5" />
                 </div>
                 <h3 className="text-white text-2xl font-medium leading-snug whitespace-pre-line mb-3">
-                  {'100% Trazabilidad\nSatelital de Flota.'}
+                  {'Distribución Local\ny Nacional.'}
                 </h3>
               </div>
               <p className="text-white/60 text-base leading-relaxed">
-                Cada partida cuenta con geolocalización GPS de captura, fecha de lance, registro de embarcación y código QR verificable en destino.
+                Desde el Pacífico hasta su negocio: exigimos altos estándares a nuestros proveedores y distribuimos el producto nacionalizado directamente a su establecimiento.
               </p>
             </div>
           </ScrollReveal>

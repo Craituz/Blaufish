@@ -33,7 +33,7 @@ const pillars: PillarItem[] = [
       'Fundada en Manta —puerto pesquero insignia del Pacífico ecuatoriano—, Blaufish Cía. Ltda. es una empresa familiar y comercializadora líder con más de 15 años de experiencia, con estrechos lazos comerciales internacionales.',
     icon: Anchor,
     buttonLabel: 'Conocer Quiénes Somos',
-    bgImage: '/assets/master_inspector.jpg',
+    bgImage: '/assets/master_inspector.jpg?v=5',
   },
   {
     id: 'productos',
@@ -46,20 +46,20 @@ const pillars: PillarItem[] = [
       'Pescados de carne firme, textura consistente y sabor delicado. Seleccionados con ultracongelación a bordo para mantener intacta su estructura celular y frescura óptima.',
     icon: Fish,
     buttonLabel: 'Ver Catálogo y Fichas Técnicas',
-    bgImage: '/assets/picudo_hero.jpg',
+    bgImage: '/assets/picudo_hero.jpg?v=3',
   },
   {
     id: 'responsabilidad-social',
     view: 'responsabilidad-social',
-    tag: 'Compromiso Ético & Social',
-    badge: 'Sostenibilidad',
+    tag: 'Compromiso Ético & Operativo',
+    badge: 'Sostenibilidad & Procesos',
     title: 'Responsabilidad Social',
-    headline: 'Comercio justo con pescadores y cuidado del océano',
+    headline: 'Procesos normativos, prácticas de captura y cadena de frío',
     description:
-      'Trabajamos mano a mano con las caletas pesqueras de la provincia de Manabí. Fomentamos artes de pesca selectivas, respeto a las normativas de la CIAT y remuneración justa.',
+      'Operaciones estandarizadas bajo las normas y políticas de cada empresa. Aplicamos métodos de correctas prácticas de captura y preservación estricta de la cadena de frío.',
     icon: HeartHandshake,
     buttonLabel: 'Explorar Responsabilidad Social',
-    bgImage: '/assets/korea_logistics.jpg?v=2',
+    bgImage: '/assets/korea_logistics.jpg?v=3',
   },
 ];
 
@@ -122,116 +122,110 @@ export const UseCasesSection: React.FC<UseCasesSectionProps> = ({ onNavigate, on
               <ScrollReveal key={pillar.id} delay={idx * 100}>
                 <div
                   ref={(el) => (pillarRefs.current[idx] = el)}
-                  className={`rounded-3xl border transition-all duration-200 overflow-hidden ${
-                    isSelected
+                  className={`rounded-3xl border transition-all duration-200 overflow-hidden ${isSelected
                       ? 'bg-white border-[#142344]/30 shadow-xl ring-1 ring-[#142344]/10'
                       : 'bg-white hover:bg-neutral-50/80 border-black/5 hover:border-black/15 shadow-sm'
-                  }`}
+                    }`}
                 >
-                {/* Clickable Option Header Bar */}
-                <button
-                  type="button"
-                  onClick={() => handlePillarClick(idx)}
-                  className={`w-full text-left p-5 md:p-6 flex items-center justify-between cursor-pointer transition-colors ${
-                    isSelected ? 'bg-[#142344] text-white' : 'text-black'
-                  }`}
-                >
-                  <div className="flex items-center gap-4">
-                    <div
-                      className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-colors shrink-0 ${
-                        isSelected ? 'bg-white/15 text-white' : 'bg-black/5 text-black'
+                  {/* Clickable Option Header Bar */}
+                  <button
+                    type="button"
+                    onClick={() => handlePillarClick(idx)}
+                    className={`w-full text-left p-5 md:p-6 flex items-center justify-between cursor-pointer transition-colors ${isSelected ? 'bg-[#142344] text-white' : 'text-black'
                       }`}
-                    >
-                      <Icon className="w-6 h-6" />
-                    </div>
-                    <div>
+                  >
+                    <div className="flex items-center gap-4">
                       <div
-                        className={`text-[11px] uppercase tracking-wider font-semibold mb-0.5 ${
-                          isSelected ? 'text-white/70' : 'text-black/50'
-                        }`}
+                        className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-colors shrink-0 ${isSelected ? 'bg-white/15 text-white' : 'bg-black/5 text-black'
+                          }`}
                       >
-                        {pillar.badge}
+                        <Icon className="w-6 h-6" />
                       </div>
-                      <div className="text-xl md:text-2xl font-medium leading-snug">
-                        {pillar.title}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-3">
-                    <span
-                      className={`hidden sm:inline text-xs font-medium ${
-                        isSelected ? 'text-white/80' : 'text-black/40'
-                      }`}
-                    >
-                      {isSelected ? 'Mostrando información' : 'Tocar para ver'}
-                    </span>
-                    <div
-                      className={`w-9 h-9 rounded-full flex items-center justify-center transition-transform duration-300 ${
-                        isSelected
-                          ? 'bg-white text-[#142344] rotate-180'
-                          : 'bg-black/5 text-black/50'
-                      }`}
-                    >
-                      <ChevronDown className="w-4 h-4" />
-                    </div>
-                  </div>
-                </button>
-
-                {/* Expanded content appearing right below the touched option */}
-                {isSelected && (
-                  <div className="p-6 md:p-8 border-t border-black/5 bg-[#FAFAFA] animate-in fade-in slide-in-from-top-2 duration-300">
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                      {/* Photo representing the option */}
-                      <div className="lg:col-span-6 rounded-2xl overflow-hidden aspect-[16/10] md:aspect-[4/3] bg-neutral-900 shadow-md relative group">
-                        <img
-                          src={pillar.bgImage}
-                          alt={pillar.title}
-                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
-                        <div className="absolute bottom-4 left-4 right-4 text-white">
-                          <span className="bg-black/60 backdrop-blur-md px-3.5 py-1.5 rounded-full text-xs font-medium border border-white/20">
-                            {pillar.tag}
-                          </span>
+                      <div>
+                        <div
+                          className={`text-[11px] uppercase tracking-wider font-semibold mb-0.5 ${isSelected ? 'text-white/70' : 'text-black/50'
+                            }`}
+                        >
+                          {pillar.badge}
+                        </div>
+                        <div className="text-xl md:text-2xl font-medium leading-snug">
+                          {pillar.title}
                         </div>
                       </div>
+                    </div>
 
-                      {/* Content side */}
-                      <div className="lg:col-span-6 flex flex-col justify-between">
-                        <div>
-                          <div className="inline-block px-3 py-1 rounded-full bg-[#142344]/10 text-[#142344] text-xs font-semibold uppercase tracking-wider mb-3">
-                            {pillar.badge}
+                    <div className="flex items-center gap-3">
+                      <span
+                        className={`hidden sm:inline text-xs font-medium ${isSelected ? 'text-white/80' : 'text-black/40'
+                          }`}
+                      >
+                        {isSelected ? 'Mostrando información' : 'Tocar para ver'}
+                      </span>
+                      <div
+                        className={`w-9 h-9 rounded-full flex items-center justify-center transition-transform duration-300 ${isSelected
+                            ? 'bg-white text-[#142344] rotate-180'
+                            : 'bg-black/5 text-black/50'
+                          }`}
+                      >
+                        <ChevronDown className="w-4 h-4" />
+                      </div>
+                    </div>
+                  </button>
+
+                  {/* Expanded content appearing right below the touched option */}
+                  {isSelected && (
+                    <div className="p-6 md:p-8 border-t border-black/5 bg-[#FAFAFA] animate-in fade-in slide-in-from-top-2 duration-300">
+                      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                        {/* Photo representing the option */}
+                        <div className="lg:col-span-6 rounded-2xl overflow-hidden aspect-[16/10] md:aspect-[4/3] bg-neutral-900 shadow-md relative group">
+                          <img
+                            src={pillar.bgImage}
+                            alt={pillar.title}
+                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+                          <div className="absolute bottom-4 left-4 right-4 text-white">
+                            <span className="bg-black/60 backdrop-blur-md px-3.5 py-1.5 rounded-full text-xs font-medium border border-white/20">
+                              {pillar.tag}
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Content side */}
+                        <div className="lg:col-span-6 flex flex-col justify-between">
+                          <div>
+                            <div className="inline-block px-3 py-1 rounded-full bg-[#142344]/10 text-[#142344] text-xs font-semibold uppercase tracking-wider mb-3">
+                              {pillar.badge}
+                            </div>
+
+                            <h3
+                              className="text-2xl md:text-3xl font-medium tracking-tight text-black leading-snug mb-3"
+                              style={{ letterSpacing: '-0.02em' }}
+                            >
+                              {pillar.headline}
+                            </h3>
+
+                            <p className="text-black/70 text-sm md:text-base leading-relaxed mb-6 font-light">
+                              {pillar.description}
+                            </p>
                           </div>
 
-                          <h3
-                            className="text-2xl md:text-3xl font-medium tracking-tight text-black leading-snug mb-3"
-                            style={{ letterSpacing: '-0.02em' }}
-                          >
-                            {pillar.headline}
-                          </h3>
-
-                          <p className="text-black/70 text-sm md:text-base leading-relaxed mb-6 font-light">
-                            {pillar.description}
-                          </p>
-                        </div>
-
-                        <div>
-                          <button
-                            type="button"
-                            onClick={() => onNavigate(pillar.view)}
-                            className="group inline-flex items-center gap-3 bg-[#142344] text-white text-sm md:text-base font-medium pl-6 pr-2 py-2 rounded-full hover:bg-[#1d3260] transition-all cursor-pointer shadow-md hover:shadow-lg"
-                          >
-                            <span>{pillar.buttonLabel}</span>
-                            <div className="bg-white rounded-full p-2 group-hover:scale-105 transition-transform">
-                              <ArrowRight className="w-4 h-4 text-[#142344] group-hover:translate-x-0.5 transition-transform" />
-                            </div>
-                          </button>
+                          <div>
+                            <button
+                              type="button"
+                              onClick={() => onNavigate(pillar.view)}
+                              className="group inline-flex items-center gap-3 bg-[#142344] text-white text-sm md:text-base font-medium pl-6 pr-2 py-2 rounded-full hover:bg-[#1d3260] transition-all cursor-pointer shadow-md hover:shadow-lg"
+                            >
+                              <span>{pillar.buttonLabel}</span>
+                              <div className="bg-white rounded-full p-2 group-hover:scale-105 transition-transform">
+                                <ArrowRight className="w-4 h-4 text-[#142344] group-hover:translate-x-0.5 transition-transform" />
+                              </div>
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                )}
+                  )}
                 </div>
               </ScrollReveal>
             );
@@ -254,7 +248,7 @@ export const UseCasesSection: React.FC<UseCasesSectionProps> = ({ onNavigate, on
                     ¿Tienes una consulta directa o requieres cotización?
                   </h3>
                   <p className="text-white/70 text-xs md:text-sm mt-1 max-w-xl font-light">
-                    Nuestro departamento comercial en Manta atiende solicitudes de importadores, distribuidores y compradores de pescado pelágico.
+                    Nuestro departamento comercial en Manta atiende solicitudes de importadores, distribuidores y compradores de pesca blanca.
                   </p>
                 </div>
               </div>

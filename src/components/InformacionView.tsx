@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ArrowLeft, Fish, Snowflake, Sparkles, ShieldCheck, CheckCircle, ArrowRight, Download, Thermometer } from 'lucide-react';
+import { ArrowLeft, Fish, Award, Truck, ShieldCheck, CheckCircle2, ArrowRight, Download, MapPin, Store, Sparkles, Check } from 'lucide-react';
 import { NavView } from '../types/navigation';
 import { ScrollReveal } from './ScrollReveal';
 
@@ -28,20 +28,20 @@ const productsData: ProductItem[] = [
   {
     id: 'picudo',
     name: 'Picudo del Pacífico',
-    photo: '/assets/picudo_hero.jpg',
-    grade: 'Grado Sashimi AAA / Extra White',
-    lipid: '8% - 12% (Alto contenido graso)',
-    texture: 'Firme, carnosa, mantecosa, sabor dulce suave',
-    temp: 'Ultracongelación a Bordo o Fresco en Hielo (0°C)',
-    seasons: 'Todo el año (Pico: Mayo a Diciembre)',
+    photo: '/assets/picudo_hero.jpg?v=3',
+    grade: 'Grado Sashimi AAA',
+    lipid: '8% - 12%',
+    texture: 'Firme, carnosa, sabor dulce',
+    temp: 'Ultracongelación a Bordo',
+    seasons: 'Todo el año',
     desc: 'El Picudo es un pescado de carne firme, textura consistente y sabor delicado, apreciado por su versatilidad en la gastronomía. Su carne de excelente calidad lo convierte en una opción ideal para filetes, porciones y preparaciones a la parrilla, ofreciendo un producto atractivo tanto para el mercado nacional como internacional.',
   },
   {
     id: 'wahoo',
     name: 'Wahoo',
-    photo: '/assets/wahoo_hero.jpg',
-    grade: 'Grado Sushi #1',
-    lipid: '5% - 8% (Medio-Alto)',
+    photo: '/assets/wahoo_hero.jpg?v=3',
+    grade: 'Extra White',
+    lipid: '5% - 8%',
     texture: 'Fibra fina, extremadamente blanca y limpia',
     temp: 'Ultracongelación a Bordo',
     seasons: 'Todo el año',
@@ -90,8 +90,8 @@ export const InformacionView: React.FC<InformacionViewProps> = ({
   }, [initialSpeciesId, speciesTrigger]);
 
   // Determine active tab
-  const activeTab = ['productos', 'cadena-frio', 'trazabilidad', 'certificaciones'].includes(currentSubView)
-    ? currentSubView
+  const activeTab = ['productos', 'calidad-producto', 'distribucion', 'cadena-frio', 'trazabilidad', 'certificaciones'].includes(currentSubView)
+    ? (currentSubView === 'cadena-frio' ? 'calidad-producto' : currentSubView === 'trazabilidad' ? 'distribucion' : currentSubView)
     : 'productos';
 
   return (
@@ -118,18 +118,18 @@ export const InformacionView: React.FC<InformacionViewProps> = ({
                 Especies & Productos
               </button>
               <button
-                onClick={() => onNavigate('cadena-frio')}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer ${activeTab === 'cadena-frio' ? 'bg-[#142344] text-white shadow-sm' : 'text-black/60 hover:text-black'
+                onClick={() => onNavigate('calidad-producto')}
+                className={`px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer ${activeTab === 'calidad-producto' ? 'bg-[#142344] text-white shadow-sm' : 'text-black/60 hover:text-black'
                   }`}
               >
-                Cadena de Frío
+                Calidad de Producto
               </button>
               <button
-                onClick={() => onNavigate('trazabilidad')}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer ${activeTab === 'trazabilidad' ? 'bg-[#142344] text-white shadow-sm' : 'text-black/60 hover:text-black'
+                onClick={() => onNavigate('distribucion')}
+                className={`px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer ${activeTab === 'distribucion' ? 'bg-[#142344] text-white shadow-sm' : 'text-black/60 hover:text-black'
                   }`}
               >
-                Trazabilidad
+                Distribución Local & Nacional
               </button>
               <button
                 onClick={() => onNavigate('certificaciones')}
@@ -160,7 +160,7 @@ export const InformacionView: React.FC<InformacionViewProps> = ({
               className="text-3xl md:text-5xl font-medium tracking-tight text-black mb-3"
               style={{ letterSpacing: '-0.03em' }}
             >
-              Especies Pelágicas del Pacífico
+              Especies de Pesca Blanca del Pacífico
             </h1>
             <p className="text-black/70 text-base leading-relaxed">
               Selecciona una especie para inspeccionar su ficha bromatológica, perfil de calidad y disponibilidad de cuota para importadores internacionales.
@@ -245,38 +245,50 @@ export const InformacionView: React.FC<InformacionViewProps> = ({
       )}
 
       {/* ========================================================================= */}
-      {/* 2. CADENA DE FRÍO TAB                                                     */}
+      {/* 2. CALIDAD DE PRODUCTO TAB                                                */}
       {/* ========================================================================= */}
-      {activeTab === 'cadena-frio' && (
+      {activeTab === 'calidad-producto' && (
         <section className="animate-in fade-in duration-300">
-          <ScrollReveal className="max-w-2xl mb-12" delay={0}>
+          <ScrollReveal className="max-w-3xl mb-12" delay={0}>
             <div className="inline-flex items-center gap-2 text-xs uppercase tracking-widest font-semibold text-black/50 mb-2">
-              <Snowflake className="w-3.5 h-3.5" />
-              <span>Ultracongelación a Bordo</span>
+              <Award className="w-3.5 h-3.5" />
+              <span>Garantía de Frescura & Sabor</span>
             </div>
             <h1
               className="text-3xl md:text-5xl font-medium tracking-tight text-black mb-3"
               style={{ letterSpacing: '-0.03em' }}
             >
-              Ultracongelación a Bordo Sin Interrupciones
+              Calidad y Frescura en Cada Pieza
             </h1>
-            <p className="text-black/70 text-base leading-relaxed">
-              La ultracongelación inmediata a bordo detiene por completo la degradación celular, garantizando que el pescado conserve la textura, aroma y jugosidad natural de una captura recién extraída.
+            <p className="text-black/70 text-base md:text-lg leading-relaxed font-light">
+              Cuidamos cada detalle desde el origen para llevar a tu mesa un pescado de excelente calidad. Seleccionamos únicamente piezas frescas, de carne firme y sabor inigualable, listas para deleitar a tus clientes.
             </p>
           </ScrollReveal>
 
+          {/* 3 Columns Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <ScrollReveal delay={0} className="h-full">
-              <div className="p-8 rounded-3xl text-white flex flex-col justify-between h-full" style={{ backgroundColor: '#2B2644' }}>
+              <div
+                className="p-8 rounded-3xl text-white flex flex-col justify-between h-full shadow-sm"
+                style={{ backgroundColor: '#2B2644' }}
+              >
                 <div>
-                  <Thermometer className="w-8 h-8 text-white/80 mb-4" />
-                  <h3 className="text-2xl font-medium mb-3">Ultracongelación a Bordo</h3>
-                  <p className="text-white/70 text-sm leading-relaxed mb-4">
-                    El congelamiento rápido en alta mar fija la calidad organoléptica de la pieza desde el primer instante, salvaguardando el músculo y la firmeza del producto.
+                  <div className="w-10 h-10 rounded-2xl bg-white/10 flex items-center justify-center text-white mb-6">
+                    <CheckCircle2 className="w-5 h-5" />
+                  </div>
+                  <div className="text-xs uppercase font-bold tracking-wider text-white/50 mb-1">
+                    Selección Cuidadosa
+                  </div>
+                  <h3 className="text-2xl font-medium mb-3">
+                    Elegido Pieza por Pieza
+                  </h3>
+                  <p className="text-white/75 text-sm leading-relaxed mb-4">
+                    Revisamos cada pescado de manera individual. Escogemos solo ejemplares con ojos brillantes, piel limpia y carne firme, asegurando que recibas siempre un producto fresco y en su punto.
                   </p>
                 </div>
-                <div className="text-xs text-white/50 border-t border-white/10 pt-4">
-                  Calidad bloqueada en origen
+                <div className="text-xs text-white/60 border-t border-white/10 pt-4 flex items-center gap-2">
+                  <Check className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                  <span>Solo lo mejor llega a tu negocio</span>
                 </div>
               </div>
             </ScrollReveal>
@@ -284,14 +296,22 @@ export const InformacionView: React.FC<InformacionViewProps> = ({
             <ScrollReveal delay={120} className="h-full">
               <div className="bg-white p-8 rounded-3xl border border-black/5 shadow-sm flex flex-col justify-between h-full">
                 <div>
-                  <div className="text-xs uppercase font-bold tracking-wider text-black/40 mb-2">Dataloggers USB / BLE</div>
-                  <h3 className="text-2xl font-medium text-black mb-3">Telemetría en Tránsito</h3>
+                  <div className="w-10 h-10 rounded-2xl bg-black/5 flex items-center justify-center text-black mb-6">
+                    <Sparkles className="w-5 h-5" />
+                  </div>
+                  <div className="text-xs uppercase font-bold tracking-wider text-black/40 mb-1">
+                    Frescura & Textura
+                  </div>
+                  <h3 className="text-2xl font-medium text-black mb-3">
+                    Textura Firme y Sabor Natural
+                  </h3>
                   <p className="text-black/60 text-sm leading-relaxed mb-4">
-                    Cada caja de exportación aérea o contenedor marítimo incluye registradores digitales de temperatura que registran el histórico grado por grado hasta el desaduanaje final.
+                    Cuidamos la frescura desde el primer momento para que el pescado mantenga su textura y todo su sabor natural al momento de cocinarlo.
                   </p>
                 </div>
-                <div className="text-xs text-black/50 border-t border-black/5 pt-4">
-                  Lectura inmediata de informe en destino
+                <div className="text-xs text-black/50 border-t border-black/5 pt-4 flex items-center gap-2">
+                  <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                  <span>Frescura garantizada de inicio a fin</span>
                 </div>
               </div>
             </ScrollReveal>
@@ -299,14 +319,22 @@ export const InformacionView: React.FC<InformacionViewProps> = ({
             <ScrollReveal delay={240} className="h-full">
               <div className="bg-white p-8 rounded-3xl border border-black/5 shadow-sm flex flex-col justify-between h-full">
                 <div>
-                  <div className="text-xs uppercase font-bold tracking-wider text-black/40 mb-2">Fresco en Vuelo</div>
-                  <h3 className="text-2xl font-medium text-black mb-3">Gel Packs & Dry Ice</h3>
+                  <div className="w-10 h-10 rounded-2xl bg-black/5 flex items-center justify-center text-black mb-6">
+                    <Award className="w-5 h-5" />
+                  </div>
+                  <div className="text-xs uppercase font-bold tracking-wider text-black/40 mb-1">
+                    En tu Cocina
+                  </div>
+                  <h3 className="text-2xl font-medium text-black mb-3">
+                    Ideal para Cualquier Preparación
+                  </h3>
                   <p className="text-black/60 text-sm leading-relaxed mb-4">
-                    Para envíos aéreos de pescado fresco sin congelar, empleamos cajas de poliestireno expandido de alta densidad con gel packs eutécticos que mantienen 0°C a +1°C durante 48 horas seguidas.
+                    Nuestra pesca blanca es perfecta para lucirte en ceviches frescos, platos gourmet, filetes a la plancha o a la parrilla, ofreciendo un excelente rendimiento y cero desperdicio.
                   </p>
                 </div>
-                <div className="text-xs text-black/50 border-t border-black/5 pt-4">
-                  Empaques aprobados por IATA Cargo
+                <div className="text-xs text-black/50 border-t border-black/5 pt-4 flex items-center gap-2">
+                  <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                  <span>Versatilidad, sabor y confianza en cada plato</span>
                 </div>
               </div>
             </ScrollReveal>
@@ -315,54 +343,136 @@ export const InformacionView: React.FC<InformacionViewProps> = ({
       )}
 
       {/* ========================================================================= */}
-      {/* 3. TRAZABILIDAD TAB                                                       */}
+      {/* 3. DISTRIBUCIÓN LOCAL & NACIONAL TAB                                      */}
       {/* ========================================================================= */}
-      {activeTab === 'trazabilidad' && (
+      {activeTab === 'distribucion' && (
         <section className="animate-in fade-in duration-300">
-          <ScrollReveal className="max-w-2xl mb-12" delay={0}>
+          <ScrollReveal className="max-w-3xl mb-12" delay={0}>
             <div className="inline-flex items-center gap-2 text-xs uppercase tracking-widest font-semibold text-black/50 mb-2">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Transparencia en Origen</span>
+              <Truck className="w-3.5 h-3.5" />
+              <span>Cadena de Suministro Integral</span>
             </div>
             <h1
               className="text-3xl md:text-5xl font-medium tracking-tight text-black mb-3"
               style={{ letterSpacing: '-0.03em' }}
             >
-              Trazabilidad 100% de la Embarcación
+              Distribución Local & Nacional
             </h1>
-            <p className="text-black/70 text-base leading-relaxed">
-              Cada lote despachado por Blaufish cuenta con identificación plena del barco pesquero, fecha y hora de lance, coordenadas GPS de extracción y certificado oficial de captura.
+            <p className="text-black/70 text-base md:text-lg leading-relaxed font-light">
+              Nuestra distribución inicia desde el noreste del Pacífico hasta el este del Pacífico. Junto con nuestros proveedores siempre exigimos los mejores productos con los más altos estándares de calidad y procesos; una vez nacionalizado el producto, lo distribuimos a nivel nacional directamente hasta su negocio.
             </p>
           </ScrollReveal>
 
-          <ScrollReveal delay={120}>
+          {/* 4 Process Step Cards */}
+          <ScrollReveal delay={100} className="mb-12">
             <div className="bg-white rounded-3xl p-8 md:p-10 border border-black/5 shadow-sm">
-              <h3 className="text-xl font-medium text-black mb-6">El Pasaporte Digital de Cada Captura:</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div className="p-4 rounded-2xl bg-[#F5F5F5]">
-                  <div className="text-xs font-mono font-bold text-black/40 mb-1">01 / BARCO</div>
-                  <div className="text-base font-semibold text-black mb-1">Registro de Zarpe</div>
-                  <div className="text-xs text-black/60">Matrícula de capitanía y tripulación calificada.</div>
+              <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-8 pb-6 border-b border-black/5">
+                <div>
+                  <div className="text-xs uppercase tracking-widest font-bold text-black/40 mb-1">Ruta Operativa & Abastecimiento</div>
+                  <h3 className="text-2xl font-medium text-black">De la Cuenca del Pacífico a su Establecimiento</h3>
                 </div>
-
-                <div className="p-4 rounded-2xl bg-[#F5F5F5]">
-                  <div className="text-xs font-mono font-bold text-black/40 mb-1">02 / GPS</div>
-                  <div className="text-base font-semibold text-black mb-1">Zona FAO 87</div>
-                  <div className="text-xs text-black/60">Geolocalización exacta de la faena en aguas del Pacífico.</div>
-                </div>
-
-                <div className="p-4 rounded-2xl bg-[#F5F5F5]">
-                  <div className="text-xs font-mono font-bold text-black/40 mb-1">03 / CALIDAD</div>
-                  <div className="text-base font-semibold text-black mb-1">Protocolo Ikejime</div>
-                  <div className="text-xs text-black/60">Sangrado inmediato a bordo y enfriamiento rápido en salmuera.</div>
-                </div>
-
-                <div className="p-4 rounded-2xl bg-[#F5F5F5]">
-                  <div className="text-xs font-mono font-bold text-black/40 mb-1">04 / CÓDIGO QR</div>
-                  <div className="text-base font-semibold text-black mb-1">Verificación en Destino</div>
-                  <div className="text-xs text-black/60">Escaneo directo en aduana y mesa de subasta para validar datos.</div>
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#142344]/5 text-[#142344] text-xs font-semibold">
+                  <MapPin className="w-4 h-4 text-[#142344]" />
+                  <span>Cobertura Nacional en Ecuador</span>
                 </div>
               </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                {/* Step 1 */}
+                <div className="p-6 rounded-2xl bg-[#F5F5F5] border border-black/5 flex flex-col justify-between">
+                  <div>
+                    <div className="text-xs font-mono font-bold text-[#142344] bg-[#142344]/10 w-fit px-2.5 py-1 rounded-full mb-3">
+                      ETAPA 01
+                    </div>
+                    <div className="text-lg font-semibold text-black mb-2">Noreste a Este del Pacífico</div>
+                    <p className="text-xs text-black/65 leading-relaxed">
+                      Nuestra red logística inicia en las principales zonas de captura del Pacífico, seleccionando lotes estratégicos junto a flotas de pesca de primer nivel.
+                    </p>
+                  </div>
+                  <div className="mt-4 pt-3 border-t border-black/5 text-[11px] font-medium text-black/50">
+                    Origen oceánico certificado
+                  </div>
+                </div>
+
+                {/* Step 2 */}
+                <div className="p-6 rounded-2xl bg-[#F5F5F5] border border-black/5 flex flex-col justify-between">
+                  <div>
+                    <div className="text-xs font-mono font-bold text-[#142344] bg-[#142344]/10 w-fit px-2.5 py-1 rounded-full mb-3">
+                      ETAPA 02
+                    </div>
+                    <div className="text-lg font-semibold text-black mb-2">Exigencia & Altos Estándares</div>
+                    <p className="text-xs text-black/65 leading-relaxed">
+                      Junto con nuestros proveedores, exigimos estrictos procesos de selección, correcta manipulación e inocuidad con estándares mundiales de calidad.
+                    </p>
+                  </div>
+                  <div className="mt-4 pt-3 border-t border-black/5 text-[11px] font-medium text-black/50">
+                    Control de calidad riguroso
+                  </div>
+                </div>
+
+                {/* Step 3 */}
+                <div className="p-6 rounded-2xl bg-[#F5F5F5] border border-black/5 flex flex-col justify-between">
+                  <div>
+                    <div className="text-xs font-mono font-bold text-[#142344] bg-[#142344]/10 w-fit px-2.5 py-1 rounded-full mb-3">
+                      ETAPA 03
+                    </div>
+                    <div className="text-lg font-semibold text-black mb-2">Nacionalización Ágil</div>
+                    <p className="text-xs text-black/65 leading-relaxed">
+                      Gestión aduanera y sanitaria completa en puerto ecuatoriano, garantizando una cadena de custodia legal, transparente y con trazabilidad documental.
+                    </p>
+                  </div>
+                  <div className="mt-4 pt-3 border-t border-black/5 text-[11px] font-medium text-black/50">
+                    Trámites y permisos oficiales
+                  </div>
+                </div>
+
+                {/* Step 4 */}
+                <div className="p-6 rounded-2xl bg-[#142344] text-white border border-[#142344] flex flex-col justify-between shadow-md">
+                  <div>
+                    <div className="text-xs font-mono font-bold text-white bg-white/20 w-fit px-2.5 py-1 rounded-full mb-3">
+                      ETAPA 04
+                    </div>
+                    <div className="text-lg font-semibold text-white mb-2">Entrega a su Negocio</div>
+                    <p className="text-xs text-white/75 leading-relaxed">
+                      Una vez nacionalizado, distribuimos el producto a nivel nacional directamente a su restaurante, distribuidora o local comercial con puntualidad garantizada.
+                    </p>
+                  </div>
+                  <div className="mt-4 pt-3 border-t border-white/15 text-[11px] font-medium text-white/70">
+                    Entrega segura en su puerta
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ScrollReveal>
+
+          {/* Delivery Call to Action Box */}
+          <ScrollReveal delay={150}>
+            <div
+              className="p-8 md:p-12 rounded-3xl text-white flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl"
+              style={{ backgroundColor: '#2B2644' }}
+            >
+              <div>
+                <div className="inline-flex items-center gap-2 text-xs uppercase tracking-widest font-semibold text-white/60 mb-2">
+                  <Store className="w-4 h-4" />
+                  <span>Abastecimiento para Negocios & Restaurantes</span>
+                </div>
+                <h3 className="text-2xl md:text-3xl font-medium mb-3">
+                  ¿Deseas abastecer tu negocio con pesca blanca de primera?
+                </h3>
+                <p className="text-white/75 text-sm md:text-base max-w-2xl leading-relaxed font-light">
+                  Coordinamos pedidos programados o recurrentes con despacho directo a tu establecimiento en cualquier provincia del país, asegurando producto fresco, seguro y de alta rotación.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => onOpenPortal()}
+                className="group inline-flex items-center gap-3 bg-white text-[#142344] text-sm md:text-base font-medium pl-6 pr-2 py-2.5 rounded-full hover:bg-white/95 transition-all cursor-pointer shadow-md hover:shadow-lg shrink-0 w-full sm:w-auto justify-center"
+              >
+                <span>Solicitar Distribución a Mi Negocio</span>
+                <div className="bg-[#142344] rounded-full p-2 group-hover:scale-105 transition-transform">
+                  <ArrowRight className="w-4 h-4 text-white group-hover:translate-x-0.5 transition-transform" />
+                </div>
+              </button>
             </div>
           </ScrollReveal>
         </section>

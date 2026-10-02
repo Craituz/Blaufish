@@ -30,7 +30,7 @@ const speciesList: SpecieItem[] = [
   {
     id: 'picudo',
     name: 'Picudo',
-    photo: '/assets/picudo_hero.jpg',
+    photo: '/assets/picudo_hero.jpg?v=3',
     grade: 'Grado Sashimi AAA Extra White',
     fatContent: 'Alto Contenido Graso (>8%)',
     description:
@@ -39,7 +39,7 @@ const speciesList: SpecieItem[] = [
   {
     id: 'wahoo',
     name: 'Wahoo',
-    photo: '/assets/wahoo_hero.jpg',
+    photo: '/assets/wahoo_hero.jpg?v=3',
     grade: 'Grado Sushi #1',
     fatContent: 'Medio-Alto (5-8%)',
     description:

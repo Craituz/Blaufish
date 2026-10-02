@@ -72,10 +72,10 @@ export const QuienesSomosView: React.FC<QuienesSomosViewProps> = ({
                 <span className="text-black/50">estándares mundiales.</span>
               </h1>
               <p className="text-black/70 text-lg md:text-xl leading-relaxed mb-6 font-light">
-                Fundada en Manta —puerto pesquero insignia del Pacífico ecuatoriano—, Blaufish Cía. Ltda. es una empresa familiar y comercializadora líder con más de 15 años de experiencia, especializada en la selección, calidad certificada y comercialización de pelágicos.
+                Fundada en Manta —puerto pesquero insignia del Pacífico ecuatoriano—, Blaufish Cía. Ltda. es una empresa familiar y comercializadora líder con más de 15 años de experiencia, especializada en la selección, calidad certificada y comercialización de pesca blanca.
               </p>
               <p className="text-black/60 text-base leading-relaxed mb-8">
-                Nuestros estrechos lazos comerciales con Asia nos permiten acceder a productos pesqueros de primer nivel, que posteriormente son comercializados en la provincia de Manabí, garantizando calidad, conservación y una cadena de custodia adecuada desde su origen hasta el consumidor.
+                Nuestros estrechos lazos comerciales con Asia nos permiten acceder a productos pesqueros de primer nivel, que posteriormente son comercializados a nivel nacional, garantizando calidad, conservación y una cadena de custodia adecuada desde su origen hasta el consumidor.
               </p>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 border-t border-black/10 pt-8">
@@ -97,7 +97,7 @@ export const QuienesSomosView: React.FC<QuienesSomosViewProps> = ({
             <ScrollReveal className="lg:col-span-5 relative" delay={150}>
               <div className="rounded-3xl overflow-hidden shadow-2xl bg-neutral-900 border border-black/10 aspect-[4/5] relative">
                 <img
-                  src="/assets/master_inspector.jpg"
+                  src="/assets/master_inspector.jpg?v=5"
                   alt="Maestro Inspector de Calidad Blaufish"
                   className="w-full h-full object-cover"
                 />
@@ -126,7 +126,7 @@ export const QuienesSomosView: React.FC<QuienesSomosViewProps> = ({
                 </div>
                 <h3 className="text-2xl font-medium text-black mb-3">Nuestra Misión</h3>
                 <p className="text-black/70 text-base leading-relaxed">
-                  Extraer y procesar de manera sustentable los mejores recursos pelágicos del Pacífico ecuatoriano, con ultracongelación a bordo para garantizar a nuestros compradores globales un producto de frescura inigualable, con trazabilidad transparente y beneficio directo a las comunidades pesqueras locales.
+                  Nuestra misión es ofrecer un producto nacional de excelencia, aplicando los más altos estándares de calidad, para deleitar a los paladares más exigentes del mercado ecuatoriano. Nos comprometemos a brindar sabor, frescura y confianza, impulsando el valor de la producción nacional.
                 </p>
               </div>
             </ScrollReveal>
@@ -142,7 +142,7 @@ export const QuienesSomosView: React.FC<QuienesSomosViewProps> = ({
                   </div>
                   <h3 className="text-2xl font-medium text-white mb-3">Nuestra Visión</h3>
                   <p className="text-white/70 text-base leading-relaxed">
-                    Consolidarnos como los comerciantes de pesca blanca y pelágicos más confiables y respetados del Pacífico Sur, reconocidos en las principales subastas de pescado del mundo por nuestra pureza, ética y excelencia operativa.
+                    Consolidarnos como los comerciantes de pesca blanca más confiables y respetados del Pacífico Sur, reconocidos en los principales sectores comerciales del mundo por nuestra pureza, ética y excelencia operativa.
                   </p>
                 </div>
               </div>
@@ -158,19 +158,19 @@ export const QuienesSomosView: React.FC<QuienesSomosViewProps> = ({
       {/* ========================================================================= */}
       {currentSubView === 'responsabilidad-social' && (
         <section id="responsabilidad" className="animate-in fade-in duration-300">
-          <ScrollReveal className="max-w-2xl mb-12" delay={0}>
+          <ScrollReveal className="max-w-3xl mb-12" delay={0}>
             <div className="inline-flex items-center gap-2 text-xs uppercase tracking-widest font-semibold text-black/50 mb-3">
               <HeartHandshake className="w-3.5 h-3.5" />
-              <span>Compromiso Ético & Social</span>
+              <span>Compromiso & Calidad Operativa</span>
             </div>
             <h2
               className="text-3xl md:text-5xl font-medium text-black mb-4"
               style={{ letterSpacing: '-0.03em' }}
             >
-              Responsabilidad Social & Sostenibilidad
+              Responsabilidad Social
             </h2>
-            <p className="text-black/70 text-base leading-relaxed">
-              La pesca responsable no es una opción, es la base de nuestra continuidad. Trabajamos mano a mano con las caletas pesqueras de la provincia de Manabí.
+            <p className="text-black/70 text-base md:text-lg leading-relaxed font-light">
+              Nuestra responsabilidad social se fundamenta en procesos correctamente establecidos según las normas y políticas de cada empresa, garantizando métodos éticos de captura y el control absoluto de la cadena de frío.
             </p>
           </ScrollReveal>
 
@@ -180,13 +180,13 @@ export const QuienesSomosView: React.FC<QuienesSomosViewProps> = ({
                 <div>
                   <h3 className="text-xl font-medium text-black mb-4 flex items-center gap-2">
                     <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
-                    <span>Comercio Justo con el Pescador Artesanal</span>
+                    <span>Procesos Establecidos según Normas y Políticas</span>
                   </h3>
                   <p className="text-black/70 text-sm leading-relaxed mb-4">
-                    Blaufish remunera con primas de calidad por encima del mercado local a los pescadores que aplican técnicas correctas de sangrado a bordo (metodología Ikejime adaptada), eviscerado higiénico y conservación inmediata en agua-nieve.
+                    Contamos con procesos correctamente establecidos y auditados, adaptados a las exigencias normativas, certificaciones de calidad y políticas internas de cada empresa aliada y cliente comercial.
                   </p>
                   <p className="text-black/60 text-xs leading-relaxed">
-                    Más de 120 familias de pescadores en San Mateo, Jaramijó y Santa Marianita forman parte de nuestro programa de abastecimiento continuo y digno.
+                    Estandarización operativa, trazabilidad documental y cumplimiento estricto de directrices sanitarias y comerciales para una relación transparente y confiable.
                   </p>
                 </div>
               </div>
@@ -197,13 +197,13 @@ export const QuienesSomosView: React.FC<QuienesSomosViewProps> = ({
                 <div>
                   <h3 className="text-xl font-medium text-black mb-4 flex items-center gap-2">
                     <ShieldCheck className="w-5 h-5 text-blue-600 shrink-0" />
-                    <span>Protección del Ecosistema Marino</span>
+                    <span>Correctas Prácticas de Capturas y Cadena de Frío</span>
                   </h3>
                   <p className="text-black/70 text-sm leading-relaxed mb-4">
-                    Nuestras flotas aliadas emplean anzuelos circulares específicos para especies objetivo que minimizan el impacto en tortugas laúd, delfines y tiburones protegidos, cumpliendo las directrices de la CIAT (Comisión Interamericana del Atún Tropical).
+                    Implementamos métodos de correctas prácticas de captura selectiva y responsable, asegurando un manejo técnico cuidadoso del producto desde su extracción marina.
                   </p>
                   <p className="text-black/60 text-xs leading-relaxed">
-                    Cero tolerancia a la pesca ilegal, no declarada y no reglamentada (INDNR).
+                    Preservación rigurosa de la cadena de frío ininterrumpida y ultracongelación inmediata para mantener intactas las propiedades organolépticas, frescura y textura natural de la pesca blanca.
                   </p>
                 </div>
               </div>

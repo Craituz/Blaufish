@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { ChevronDown, Menu, X, Anchor, Sparkles, HeartHandshake, Fish, Snowflake, ShieldCheck, PhoneCall } from 'lucide-react';
+import { ChevronDown, Menu, X, Anchor, Sparkles, HeartHandshake, Fish, Snowflake, ShieldCheck, PhoneCall, Award, Truck } from 'lucide-react';
 import { NavView } from '../types/navigation';
 
 interface NavbarProps {
@@ -49,7 +49,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate, onOpenP
     {
       id: 'responsabilidad-social' as NavView,
       title: 'Responsabilidad Social',
-      desc: 'Apoyo activo a caletas de pescadores artesanales y sostenibilidad del ecosistema marino.',
+      desc: 'Procesos según normas y políticas de cada empresa, correctas prácticas de captura y cadena de frío.',
       icon: HeartHandshake,
     },
   ];
@@ -58,39 +58,38 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate, onOpenP
     {
       id: 'productos' as NavView,
       title: 'Especies y Productos',
-      desc: 'Picudo (Pez Espada), Wahoo, Atún y Dorado en cortes sashimi, saku y lomos.',
+      desc: 'Picudo (Marlín), Wahoo y pesca blanca en cortes de primera selección.',
       icon: Fish,
     },
     {
-      id: 'cadena-frio' as NavView,
-      title: 'Ultracongelación a Bordo',
-      desc: 'Congelamiento inmediato a bordo y telemetría térmica ininterrumpida.',
-      icon: Snowflake,
+      id: 'calidad-producto' as NavView,
+      title: 'Calidad de Producto',
+      desc: 'Selección minuciosa, altos estándares y óptimo rendimiento gastronómico.',
+      icon: Award,
     },
     {
-      id: 'trazabilidad' as NavView,
-      title: 'Trazabilidad y Flota',
-      desc: 'Seguimiento satelital GPS de embarcaciones, coordenadas de captura y bitácora legal.',
-      icon: Sparkles,
+      id: 'distribucion' as NavView,
+      title: 'Distribución Local y Nacional',
+      desc: 'Desde el Pacífico hasta su negocio con logística ágil y cadena de custodia.',
+      icon: Truck,
     },
     {
       id: 'certificaciones' as NavView,
       title: 'Certificaciones y Calidad',
-      desc: 'Acreditaciones internacionales: HACCP, FDA, UE #042, NFQS Corea e IATTC.',
+      desc: 'Acreditaciones sanitarias oficiales y cumplimiento normativo estricto.',
       icon: ShieldCheck,
     },
   ];
 
   const isNosotrosActive = ['quienes-somos', 'responsabilidad-social'].includes(currentView);
-  const isInfoActive = ['productos', 'cadena-frio', 'trazabilidad', 'certificaciones'].includes(currentView);
+  const isInfoActive = ['productos', 'calidad-producto', 'distribucion', 'cadena-frio', 'trazabilidad', 'certificaciones'].includes(currentView);
 
   return (
     <nav
-      className={`fixed md:absolute top-0 left-0 right-0 z-40 px-4 md:px-6 py-2.5 md:py-5 transition-all duration-200 ${
-        isScrolled || mobileMenuOpen
+      className={`fixed md:absolute top-0 left-0 right-0 z-40 px-4 md:px-6 py-2.5 md:py-5 transition-all duration-200 ${isScrolled || mobileMenuOpen
           ? 'bg-[#F5F5F5]/95 backdrop-blur-md shadow-sm border-b border-black/5 md:bg-transparent md:border-transparent md:shadow-none'
           : 'bg-transparent'
-      }`}
+        }`}
     >
       <div className="max-w-[88rem] mx-auto relative flex items-center justify-between min-h-[50px] md:min-h-[75px]">
         {/* Brand: Logo oficial de Blaufish centrado en móvil y a la izquierda en desktop */}
@@ -150,14 +149,14 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate, onOpenP
                         setActiveDropdown(null);
                       }}
                       className={`group w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left transition-all duration-150 cursor-pointer ${isItemActive
-                          ? 'bg-[#142344] text-white shadow-sm'
-                          : 'text-gray-700 hover:text-black hover:bg-black/5'
+                        ? 'bg-[#142344] text-white shadow-sm'
+                        : 'text-gray-700 hover:text-black hover:bg-black/5'
                         }`}
                     >
                       <div
                         className={`p-2 rounded-lg shrink-0 transition-colors ${isItemActive
-                            ? 'bg-white/15 text-white'
-                            : 'bg-black/5 text-black/70 group-hover:bg-[#142344]/10 group-hover:text-[#142344]'
+                          ? 'bg-white/15 text-white'
+                          : 'bg-black/5 text-black/70 group-hover:bg-[#142344]/10 group-hover:text-[#142344]'
                           }`}
                       >
                         <Icon className="w-4 h-4" />
@@ -203,14 +202,14 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate, onOpenP
                         setActiveDropdown(null);
                       }}
                       className={`group w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left transition-all duration-150 cursor-pointer ${isItemActive
-                          ? 'bg-[#142344] text-white shadow-sm'
-                          : 'text-gray-700 hover:text-black hover:bg-black/5'
+                        ? 'bg-[#142344] text-white shadow-sm'
+                        : 'text-gray-700 hover:text-black hover:bg-black/5'
                         }`}
                     >
                       <div
                         className={`p-2 rounded-lg shrink-0 transition-colors ${isItemActive
-                            ? 'bg-white/15 text-white'
-                            : 'bg-black/5 text-black/70 group-hover:bg-[#142344]/10 group-hover:text-[#142344]'
+                          ? 'bg-white/15 text-white'
+                          : 'bg-black/5 text-black/70 group-hover:bg-[#142344]/10 group-hover:text-[#142344]'
                           }`}
                       >
                         <Icon className="w-4 h-4" />
